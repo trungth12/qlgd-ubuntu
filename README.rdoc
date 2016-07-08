@@ -1,0 +1,33 @@
+Phần mềm quản lý giảng đường:
+
+=== Dành cho giảng viên
+
+1. Có thẻ điểm danh theo thời khóa biểu
+2. Có thể đăng ký nghỉ dạy, đăng ký dạy bổ sung và xuất lịch giảng dạy theo PDF
+3. Có thẻ quy định các đầu điểm, theo chuẩn hoặc tự quy định.
+4. Có thẻ xuất các bảng theo dõi học tập cho lớp
+
+=== Dành cho ban quản lý sinh viên
+
+1. Có thể tra cứu sinh viên theo tên hoặc lớp hành chính, biết được số tiết nghỉ theo môn
+2. Có thể theo dõi lịch trực nhật của sinh viên
+3. Có thể thống kê theo số sinh viên gặp "nguy hiểm"
+
+=== Dành cho phòng đào tạo
+
+1. Có thể theo dõi quá trình nghỉ dạy và dạy bổ sung của giảng viên
+2. Có thể thống kê và tra cứu quá trình thực hiện của giảng viên
+
+=== Dành cho ban thanh tra
+
+1. Có thể theo dõi quá trình lên lớp của giảng viên (lên muộn, về sớm, đúng giờ, nghỉ tiết)
+2. Có thể thống kê và tra cứu theo tuần quá trình lên lớp giảng viên
+
+=== Dành cho ban kiểm định chất lượng
+
+1. Có thể tổ chức dự giờ và đánh giá công tác giảng dạy theo từng buổi học
+2. Có thể xuất ra các bản hướng dẫn theo mẫu
+
+=== Dành cho sinh viên, phụ huynh
+
+1. Có thể tra cứu các thông tin lên lớp và thông tin điểm quá trình của con em.

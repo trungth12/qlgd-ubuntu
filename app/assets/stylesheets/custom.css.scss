@@ -1,0 +1,89 @@
+@import "bootstrap";
+
+/* universal */
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 60px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #999;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+.nobreak {
+    page-break-inside: avoid;
+}
+
+.table tbody tr > td.success {
+  background-color: #dff0d8 !important;
+}
+
+.table tbody tr > td.error {
+  background-color: #f2dede !important;
+}
+
+.table tbody tr > td.warning {
+  background-color: #fcf8e3 !important;
+}
+
+.table tbody tr > td.info {
+  background-color: #d9edf7 !important;
+}
+
+.table-hover tbody tr:hover > td.success {
+  background-color: #d0e9c6 !important;
+}
+
+.table-hover tbody tr:hover > td.error {
+  background-color: #ebcccc !important;
+}
+
+.table-hover tbody tr:hover > td.warning {
+  background-color: #faf2cc !important;
+}
+
+.table-hover tbody tr:hover > td.info {
+  background-color: #c4e3f3 !important;
+}
