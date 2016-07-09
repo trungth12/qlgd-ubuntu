@@ -3,3 +3,11 @@ Application uninitialized: Try calling YourApp::Application.initialize!
 Application uninitialized: Try calling YourApp::Application.initialize!
   [1m[36mTenant Load (0.5ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
 Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[36mTenant Load (0.4ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[36mTenant Load (0.5ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[36mTenant Load (0.6ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[36mTenant Load (0.5ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
