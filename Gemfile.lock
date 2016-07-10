@@ -406,7 +406,6 @@ GEM
     wasabi (3.5.0)
       httpi (~> 2.0)
       nokogiri (>= 1.4.2)
-    wdm (0.1.1)
     websocket (1.2.3)
     will_paginate (3.1.0)
     will_paginate-bootstrap (1.0.1)
@@ -478,7 +477,6 @@ DEPENDENCIES
   thin
   timecop
   uglifier (>= 1.0.3)
-  wdm
   will_paginate (~> 3.0)
   will_paginate-bootstrap
 

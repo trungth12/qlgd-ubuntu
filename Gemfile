@@ -37,7 +37,7 @@ group :development, :test do
 end
 group :test do
   gem 'rb-notifu'
-  gem 'wdm'
+ # gem 'wdm'
   gem 'selenium-webdriver'
   gem 'capybara'
   gem 'factory_girl_rails'

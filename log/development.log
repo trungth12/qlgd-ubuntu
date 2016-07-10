@@ -11,3 +11,21 @@ Application uninitialized: Try calling YourApp::Application.initialize!
 Application uninitialized: Try calling YourApp::Application.initialize!
   [1m[36mTenant Load (0.5ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
 Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[36mTenant Load (0.4ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[35mLichTrinhGiangDay Load (0.7ms)[0m  SELECT  "lich_trinh_giang_days".* FROM "lich_trinh_giang_days"  ORDER BY thoi_gian, phong LIMIT 1
+  [1m[36mTenant Load (0.6ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[35mLichTrinhGiangDay Load (5.2ms)[0m  SELECT  "lich_trinh_giang_days".* FROM "lich_trinh_giang_days"  ORDER BY thoi_gian, phong LIMIT 1
+  [1m[36mLopMonHoc Load (0.5ms)[0m  [1mSELECT "lop_mon_hocs".* FROM "lop_mon_hocs" WHERE "lop_mon_hocs"."id" IN (80)[0m
+  [1m[35mGiangVien Load (0.4ms)[0m  SELECT "giang_viens".* FROM "giang_viens" WHERE "giang_viens"."id" IN (420)
+  [1m[36mLichTrinhGiangDay Load (3.6ms)[0m  [1mSELECT  "lich_trinh_giang_days".* FROM "lich_trinh_giang_days"  ORDER BY thoi_gian, phong LIMIT 1[0m
+  [1m[35mLopMonHoc Load (0.6ms)[0m  SELECT "lop_mon_hocs".* FROM "lop_mon_hocs" WHERE "lop_mon_hocs"."id" IN (80)
+  [1m[36mGiangVien Load (0.5ms)[0m  [1mSELECT "giang_viens".* FROM "giang_viens" WHERE "giang_viens"."id" IN (420)[0m
+  [1m[36mTenant Load (0.6ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[35mLichTrinhGiangDay Load (2.2ms)[0m  SELECT "lich_trinh_giang_days".* FROM "lich_trinh_giang_days" WHERE "lich_trinh_giang_days"."giang_vien_id" = $1  ORDER BY thoi_gian, phong  [["giang_vien_id", 420]]
+  [1m[36mLichTrinhGiangDay Load (1.7ms)[0m  [1mSELECT "lich_trinh_giang_days".* FROM "lich_trinh_giang_days" WHERE "lich_trinh_giang_days"."giang_vien_id" = $1  ORDER BY thoi_gian, phong[0m  [["giang_vien_id", 420]]
+  [1m[36mTenant Load (1.0ms)[0m  [1mSELECT  "tenants".* FROM "tenants"  ORDER BY "tenants"."id" ASC LIMIT 1000[0m
+Application uninitialized: Try calling YourApp::Application.initialize!
+  [1m[35mLichTrinhGiangDay Load (1.8ms)[0m  SELECT "lich_trinh_giang_days".* FROM "lich_trinh_giang_days" WHERE "lich_trinh_giang_days"."giang_vien_id" = $1  ORDER BY thoi_gian, phong  [["giang_vien_id", 420]]

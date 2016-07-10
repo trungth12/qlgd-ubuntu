@@ -2,7 +2,7 @@
 class LichTrinhGiangDay < ActiveRecord::Base
 
   include Comparable
-  default_scope {includes(:lop_mon_hoc).includes(:giang_vien).order('thoi_gian, phong')}
+  default_scope {order('thoi_gian, phong')}
 #  attr_accessible :lop_mon_hoc_id, :moderator_id, :noi_dung, :phong, :so_tiet, :state, :thoi_gian, :thuc_hanh, :tiet_bat_dau, :tiet_nghi, :tuan, :status, :giang_vien_id, :so_tiet_moi, :note, :ltype
   belongs_to :lop_mon_hoc
   belongs_to :giang_vien
@@ -79,7 +79,8 @@ class LichTrinhGiangDay < ActiveRecord::Base
   end
   def ca    
     temp = LichTrinhGiangDay::CA2.detect {|k,v| v.cover?(Time.strptime("#{thoi_gian.localtime.hour}:#{thoi_gian.localtime.min}","%H:%M"))}
-    temp[0]
+   # temp[0] unless temp.blank?
+    temp.nil? ? 0 : temp[0]
   end
   def includes_vi_pham
     self.includes(:vi_pham)
