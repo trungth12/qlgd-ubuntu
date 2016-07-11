@@ -29,7 +29,4 @@ class ViPham < ActiveRecord::Base
       transition [:removed, :confirmed] => :pending, :if => lambda {|vi_pham| ["normal", "bosung"].include?(vi_pham.lich_trinh_giang_day.state) }
     end
 	end
-
-
-  
 end
