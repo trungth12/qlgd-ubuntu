@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe AssignmentGroup do
   
   it "should require name, weight, giang_vien_id" do
@@ -9,6 +10,6 @@ describe AssignmentGroup do
   	ag.valid?.should be_true
   	ag.name.should == "Thuc Hanh"
   	ag.destroy if ag.can_destroy?
-  end
-
+  
+end
 end

@@ -3,6 +3,7 @@ module ControllerMacros
   include Devise::TestHelpers
   def prepare 
     before(:each) do 
+      te = FactoryGirl.create(:tenant) 
       sv = FactoryGirl.create(:sinh_vien)
       gv = FactoryGirl.create(:giang_vien)
       us = FactoryGirl.create(:giangvien)

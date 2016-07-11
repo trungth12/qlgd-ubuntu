@@ -4,6 +4,9 @@ FactoryGirl.define do
     nam_hoc "2013-2014"
     ngay_bat_dau DateTime.new(2013, 8, 12)
     ngay_ket_thuc DateTime.new(2013, 12, 1)
-    name "t1"
+    database "qlgd_test"
+    username "postgres"
+    password "123456"
+    
   end
 end
