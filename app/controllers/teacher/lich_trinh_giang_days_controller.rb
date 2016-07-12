@@ -1,6 +1,6 @@
-class Teacher::LichTrinhGiangDaysController < TenantsController
+class Teacher::LichTrinhGiangDaysController < ApplicationController
 
-	before_filter :get_lop, :except => [:info, :thanhtra, :thanhtraupdate, :accept, :request2, :home, :monitor, :index, :index_bosung, :mobile_content, :get_mobile_content]
+	before_filter :get_lop, :except => [:info, :thanhtra, :thanhtraupdate, :accept, :accept2, :request2, :home, :monitor, :index, :index_bosung, :mobile_content, :get_mobile_content]
 
 	
 	def info

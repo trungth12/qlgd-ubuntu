@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Truongkhoa::LopMonHocsController < TenantsController	
+class Truongkhoa::LopMonHocsController < ApplicationController	
 	def show
 		@lop = LopMonHoc.find(params[:lop_id])
 		@result = Truongkhoa::LopMonHocSerializer.new(@lop)

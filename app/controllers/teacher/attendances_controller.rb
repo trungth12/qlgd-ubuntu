@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Teacher::AttendancesController < TenantsController
+class Teacher::AttendancesController < ApplicationController
   
   def index    
    	@lich = LichTrinhGiangDay.find(params[:lich_id])   

@@ -1,6 +1,6 @@
 #encoding: utf-8
 require 'lop_assignment_group_serializer'
-class Teacher::LopMonHocsController < TenantsController
+class Teacher::LopMonHocsController < ApplicationController
 
 	def index		
 		@lops = current_user.get_lops

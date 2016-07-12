@@ -1,4 +1,4 @@
-class Daotao::LichTrinhGiangDaysController < TenantsController
+class Daotao::LichTrinhGiangDaysController < ApplicationController
 
 	def index
 		@lichs = LichTrinhGiangDay.waiting.map {|l| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(l))}

@@ -1,4 +1,4 @@
-class Daotao::LopMonHocsController < TenantsController
+class Daotao::LopMonHocsController < ApplicationController
 	#before_action :check_author, only: [:create, :start, :restore, :remove, :update]
     
 	#def check_author

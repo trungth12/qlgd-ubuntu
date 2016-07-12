@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Teacher::SubmissionsController < TenantsController	
+class Teacher::SubmissionsController < ApplicationController	
 	def diem_chuyen_can
 		@lop = LopMonHoc.find(params[:id])
 		authorize @lop, :update?

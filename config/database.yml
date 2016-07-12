@@ -21,8 +21,8 @@ development:
   host: localhost
   port: 5432
   username: postgres
-  password: 1234567
-  database: qlgd_dev
+  password: 123456
+  database: qlgd
   pool: 5
   timeout: 5000
 
@@ -31,7 +31,7 @@ production:
   host: localhost
   port: 5432
   username: postgres
-  password: 123456
+  password: 1234567
   database: qlgd
   pool: 5
   timeout: 5000

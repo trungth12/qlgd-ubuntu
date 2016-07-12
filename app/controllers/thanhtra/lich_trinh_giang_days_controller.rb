@@ -1,4 +1,4 @@
-class Thanhtra::LichTrinhGiangDaysController < TenantsController
+class Thanhtra::LichTrinhGiangDaysController < ApplicationController
 
 	def index
 		date = Date.strptime(params[:date], '%d/%m/%Y')

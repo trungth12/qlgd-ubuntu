@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Teacher::AssignmentGroupsController < TenantsController
+class Teacher::AssignmentGroupsController < ApplicationController
 
 	def reorder
 		@lop = LopMonHoc.find(params[:id].to_i)

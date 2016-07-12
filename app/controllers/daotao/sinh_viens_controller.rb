@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Daotao::SinhViensController < TenantsController
+class Daotao::SinhViensController < ApplicationController
 
 	def lop_hanh_chinhs
 		if params[:ma_lop_hanh_chinh].present?		

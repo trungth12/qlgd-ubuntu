@@ -1,4 +1,4 @@
-class Daotao::RoomsController < TenantsController
+class Daotao::RoomsController < ApplicationController
 
 	def idle
 		date = Date.strptime(params[:date], '%d/%m/%Y')

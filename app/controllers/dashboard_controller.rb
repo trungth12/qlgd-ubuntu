@@ -1,4 +1,4 @@
-class DashboardController < TenantsController
+class DashboardController < ApplicationController
   
   def index    
     @lichs = LichTrinhGiangDay.active.order('thoi_gian, phong')

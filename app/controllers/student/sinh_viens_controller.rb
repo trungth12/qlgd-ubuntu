@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Student::SinhViensController < TenantsController
+class Student::SinhViensController < ApplicationController
 	def show
 		@sinh_vien = SinhVien.find(params[:sinh_vien_id])	
 		@enrollments = @sinh_vien.enrollments.includes(:lop_mon_hoc).select {|en| !en.lop_mon_hoc.nil?}	
