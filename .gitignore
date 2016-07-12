@@ -13,3 +13,5 @@
 # Ignore all logfiles and tempfiles.
 
 /tmp
+/solr
+/log
