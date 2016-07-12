@@ -19,10 +19,10 @@ class SinhVien < ActiveRecord::Base
       ngay_sinh.strftime("%d/%m/%Y")
     end    
     text :hoc_ky do 
-      Tenant.first.hoc_ky
+      Tenant.last.hoc_ky
     end
     text :nam_hoc do 
-      Tenant.first.nam_hoc
+      Tenant.last.nam_hoc
     end
     string :tenant
     string :so_lop_mon do
@@ -33,7 +33,7 @@ class SinhVien < ActiveRecord::Base
     end
   end
   def tenant
-    Tenant.first.id.to_s
+    Tenant.last.id.to_s
   end  
   def lich_trinh_giang_days    
     return [] if lop_mon_hocs.count == 0

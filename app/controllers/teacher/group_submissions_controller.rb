@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Teacher::GroupSubmissionsController < TenantsController	
+class Teacher::GroupSubmissionsController < ApplicationController	
 	def index
 		@lop = LopMonHoc.find(params[:id])
 		

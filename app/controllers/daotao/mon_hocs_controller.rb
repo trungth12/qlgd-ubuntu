@@ -1,4 +1,4 @@
-class Daotao::MonHocsController < TenantsController
+class Daotao::MonHocsController < ApplicationController
 	def create
 		MonHoc.where(ma_mon_hoc: params[:ma_mon_hoc], ten_mon_hoc: params[:ten_mon_hoc]).first_or_create!
 		@gvs = GiangVien.all.map {|gv| {:id => gv.id, :text => gv.code = " - " + gv.hovaten}}		

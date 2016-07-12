@@ -1,4 +1,4 @@
-class Student::AttendancesController < TenantsController
+class Student::AttendancesController < ApplicationController
   
   def index    
     

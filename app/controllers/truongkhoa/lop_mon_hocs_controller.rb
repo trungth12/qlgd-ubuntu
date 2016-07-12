@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Truongkhoa::LopMonHocsController < TenantsController	
+class Truongkhoa::LopMonHocsController < ApplicationController	
 	def show
 		@lop = LopMonHoc.find(params[:lop_id])
 		@result = Truongkhoa::LopMonHocSerializer.new(@lop)
@@ -21,7 +21,7 @@ class Truongkhoa::LopMonHocsController < TenantsController
 	def tinhhinh
 		@lop = LopMonHoc.find(params[:lop_id])
 		x = (1..16)
-		if Tenant.first.hoc_ky == '2'
+		if Tenant.last.hoc_ky == '2'
 			x = (23..41)
 		end
 		headers = x.inject([]){|res, elem| res << {tuan: "T#{elem}"} }		

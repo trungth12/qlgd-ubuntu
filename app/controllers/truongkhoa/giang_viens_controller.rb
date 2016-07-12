@@ -1,4 +1,4 @@
-class Truongkhoa::GiangViensController < TenantsController	
+class Truongkhoa::GiangViensController < ApplicationController	
 	def index
 		@khoa = Khoa.find(params[:khoa_id])
 		@gvs = GiangVien.order('encoded_position').where(ten_khoa: @khoa.ten_khoa).includes(:assistants)

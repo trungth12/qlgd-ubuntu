@@ -1,4 +1,4 @@
-class Daotao::AssistantsController < TenantsController
+class Daotao::AssistantsController < ApplicationController
 	#before_action :get_lop
 	#before_action :check_auth
 

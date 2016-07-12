@@ -1,4 +1,4 @@
-class Daotao::CalendarsController < TenantsController
+class Daotao::CalendarsController < ApplicationController
 	def index
 		@lop = LopMonHoc.find(params[:lop_id])
 		@headers = Tuan.pluck(:stt).uniq

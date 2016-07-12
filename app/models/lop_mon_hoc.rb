@@ -49,15 +49,15 @@ class LopMonHoc < ActiveRecord::Base
       settings["lich_trinh_du_kien"] if settings and settings[:lich_trinh_du_kien]
     end
     text :hoc_ky do 
-      Tenant.first.hoc_ky
+      Tenant.last.hoc_ky
     end
     text :nam_hoc do 
-      Tenant.first.nam_hoc
+      Tenant.last.nam_hoc
     end
     string :tenant
   end
   def tenant
-    Tenant.first.id.to_s
+    Tenant.last.id.to_s
   end  
 
   state_machine :state, :initial => :pending do  

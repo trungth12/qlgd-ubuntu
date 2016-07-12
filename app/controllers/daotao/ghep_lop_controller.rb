@@ -1,4 +1,4 @@
-class Daotao::GhepLopController < TenantsController
+class Daotao::GhepLopController < ApplicationController
 
 	def lop_hanh_chinhs
 		#results = SinhVien.where("ma_lop_hanh_chinh like ?", "%#{params[:q]}%").paginate(:page => params[:page], :per_page => params[:page_limit])
