@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     else
       #ids = self.assistants.map(&:giang_vien_id)
       ids = Assistant.where(:giang_vien_id => self.imageable_id).map{|as| as.lop_mon_hoc_id}
-      get_lichs = LichTrinhGiangDay.where(lop_mon_hoc_id: ids).sort_by {|l| [l.thoi_gian, l.phong]}
+      get_lichs = LichTrinhGiangDay.includes(:giang_vien).includes(:vi_pham).where(lop_mon_hoc_id: ids).sort_by {|l| [l.thoi_gian, l.phong]}
     end
   end
   
