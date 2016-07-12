@@ -101,13 +101,13 @@ class LichTrinhGiangDay < ActiveRecord::Base
     self.giang_vien.hovaten
   end
   def tenant
-    Tenant.first.id.to_s
+    Tenant.last.id.to_s
   end  
   def hoc_ky
-    Tenant.first.hoc_ky
+    Tenant.last.hoc_ky
   end
   def nam_hoc
-    Tenant.first.nam_hoc
+    Tenant.last.nam_hoc
   end
   # state [normal, nghiday, nghile, bosung]  
   
