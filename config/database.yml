@@ -8,7 +8,7 @@ test:
   host: localhost
   port: 5432
   username: postgres
-  password: 1234567
+  password: 123456
   database: qlgd_test
   pool: 5
   timeout: 5000

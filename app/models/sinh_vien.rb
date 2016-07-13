@@ -15,9 +15,9 @@ class SinhVien < ActiveRecord::Base
   searchable do
     text :ten, :boost => 5
     text :code, :hovaten, :ma_lop_hanh_chinh, :gioi_tinh, :he, :khoa, :nganh, :tin_chi
-    text :ngay_sinh do 
-      ngay_sinh.strftime("%d/%m/%Y")
-    end    
+    # text :ngay_sinh do 
+    #   ngay_sinh.strftime("%d/%m/%Y")
+    # end    
     text :hoc_ky do 
       Tenant.last.hoc_ky
     end
@@ -89,6 +89,8 @@ class SinhVien < ActiveRecord::Base
                     i2 = ss.index(ch2)        
                     i1 = ss2.index(ch1) if i1.nil?
                     i2 = ss2.index(ch2) if i2.nil?
+                    return 0 if i1.nil?
+                    return 0 if i2.nil?
                     return -1 if i1 < i2
                     return 1 if i2 < i1
                     i += 1

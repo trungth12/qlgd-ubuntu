@@ -17,6 +17,7 @@ module Qlgd
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
+    config.active_record.raise_in_transactional_callbacks = true
     
    # config.middleware.use 'Apartment::Elevators::Generic', Proc.new { |request| request[:tenant_id].present? ? Tenant.find(request[:tenant_id]).name : Tenant.last.name }
 

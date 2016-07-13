@@ -12,13 +12,13 @@ describe LopMonHoc do
     @lop = FactoryGirl.create(:lop_mon_hoc, ma_lop: 'ml1', ma_mon_hoc: 'mm1', ten_mon_hoc: 'tm1', settings: {})
   end
   it "should be created and removed" do              
-    @lop.valid?.should be_true    
-    @lop.pending?.should be_true
+    @lop.valid? expect be_true    
+    @lop.pending? expect be_true
     @lop.start!
-    @lop.started?.should be_true
+    @lop.started? expect be_true
     @lop.assignments.count.should == 5
     @lop.remove!
-    @lop.removed?.should be_true
+    @lop.removed? expect be_true
   end
   it "should create calendar" do 
     @gv = GiangVien.where(code: 'gv1', ho: 'ho', ten: 'name').first_or_create!

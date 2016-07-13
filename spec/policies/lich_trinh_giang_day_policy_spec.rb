@@ -12,8 +12,8 @@ describe LichTrinhGiangDayPolicy do
     		lich = lop.lich_trinh_giang_days.with_giang_vien(gv.id).normal.create(:so_tiet => 2, :thoi_gian => Time.new(2013, 8, 12, 6, 30))
     		Timecop.freeze(lich.thoi_gian.localtime + 1.day)
 			lich.accept!
-			lich.accepted?.should be_true			
-			Pundit.policy!(u, lich).update?.should be_false
+			lich.accepted? expect be_true			
+			Pundit.policy!(u, lich).update? expect be_false
 			lop.start!(gv)
 			lop.assignments.count.should > 0
 			lop.settings.should_not be_nil
@@ -21,7 +21,7 @@ describe LichTrinhGiangDayPolicy do
 			lop.settings[:so_tiet_thuc_hanh] = 0
 			lop.save!		
 			lop.tong_so_tiet.should > 0
-			Pundit.policy!(u, lich.reload).update?.should be_true
+			Pundit.policy!(u, lich.reload).update? expect be_true
 		end
 	end
 end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Enrollment do
   it "should require sinh vien and course" do 
   	en = FactoryGirl.build(:enrollment, :sinh_vien => nil)
-  	en.valid?.should be_false
+  	en.valid? expect be_false
   end
   it "should belongs to course and student" do 
   	sv = FactoryGirl.create(:sinh_vien)
@@ -28,7 +28,7 @@ describe Enrollment do
   	sv = FactoryGirl.create(:sinh_vien)  	
   	en = FactoryGirl.create(:enrollment, :sinh_vien => sv, :lop_mon_hoc => lop)
   	lich = lop.lich_trinh_giang_days.order('thoi_gian').first
-  	lich.so_tiet_moi.should == 3
+  	lich.so_tiet.should == 3
   	at = lich.attendances.where(sinh_vien_id: sv.id).first_or_create!
   	at.turn(false)    
     at.save!
@@ -45,9 +45,9 @@ describe Enrollment do
     gv = FactoryGirl.create(:giang_vien)
     sv = FactoryGirl.create(:sinh_vien)
     lop = FactoryGirl.create(:lop_mon_hoc)  
-    lop.pending?.should be_true  
+    lop.pending? expect be_true  
     lop.start!
-    lop.started?.should be_true    
+    lop.started? expect be_true    
     lop.generate_assignments(gv)
     en = lop.enrollments.where(:sinh_vien_id => sv.id).first_or_create
     subs = lop.assignments

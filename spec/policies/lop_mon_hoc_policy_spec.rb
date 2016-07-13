@@ -12,7 +12,7 @@ describe LopMonHocPolicy do
 		    gv = FactoryGirl.create(:giang_vien)
 		    calendar = FactoryGirl.create(:calendar, :lop_mon_hoc => lop, :giang_vien => gv)        			
 			u = FactoryGirl.create(:user, :imageable => gv)				
-			Pundit.policy!(u, lop.reload).update?.should be_true
+			Pundit.policy!(u, lop.reload).update? expect be_true
 
 		end
 
