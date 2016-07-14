@@ -3,13 +3,11 @@ production:
     hostname: localhost
     port: 8983
     log_level: WARNING
-
 development:
   solr:
     hostname: localhost
     port: 8984
     log_level: INFO
-
 test:
   solr:
     hostname: localhost
