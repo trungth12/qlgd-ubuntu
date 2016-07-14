@@ -3,7 +3,7 @@ require 'spec_helper'
 include ControllerMacros
 
 
-describe AttendancesController do 
+#describe AttendancesController do 
 	
 	describe "As a teacher" do 
 		
@@ -37,5 +37,5 @@ describe AttendancesController do
 			assigns(:attendance).decorate.phep_status.should eq("Không phép")	
 
 		end
-	end	
+	#end	
 end
