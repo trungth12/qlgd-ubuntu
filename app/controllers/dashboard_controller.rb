@@ -67,8 +67,14 @@ order by ag.position"
     if current_user and Pundit.policy!(current_user, GiangVien).truongkhoa?
       @khoa = current_user.imageable.khoas.first                
     end
-    respond_to do |format|
-      format.html {render "truongkhoa/index"}
+      respond_to do |format|
+      format.html {
+        if !@khoa.nil? 
+          render "truongkhoa/index"
+        else 
+          flash[:notice] = "Not authorized"
+          redirect_to "/"
+        end }
     end
   end
 

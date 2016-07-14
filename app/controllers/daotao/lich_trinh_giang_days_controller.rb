@@ -1,12 +1,12 @@
 class Daotao::LichTrinhGiangDaysController < ApplicationController
 
 	def index
-		@lichs = LichTrinhGiangDay.waiting.map {|l| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(l))}
+		@lichs = LichTrinhGiangDay.includes(:lop_mon_hoc).includes(:giang_vien).waiting.map {|l| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(l))}
 		render json: @lichs, :root => false
 	end
 
 	def accept
-		@lich = LichTrinhGiangDay.find(params[:id])
+		@lich = LichTrinhGiangDay.includes(:lop_mon_hoc).find(params[:id])
 		authorize @lich, :daotao?
 		@lich.phong = params[:phong] if @lich.state == 'bosung'
 		@lich.accept!
@@ -15,7 +15,7 @@ class Daotao::LichTrinhGiangDaysController < ApplicationController
 	end
 
 	def drop
-		@lich = LichTrinhGiangDay.find(params[:id])
+		@lich = LichTrinhGiangDay.includes(:lop_mon_hoc).find(params[:id])
 		authorize @lich, :daotao?		
 		if @lich.state == "nghiday"
 			@lich.update_attributes(state: "normal")
@@ -28,7 +28,7 @@ class Daotao::LichTrinhGiangDaysController < ApplicationController
 	end
 
 	def check
-		@lich = LichTrinhGiangDay.find(params[:id])
+		@lich = LichTrinhGiangDay.includes(:lop_mon_hoc).find(params[:id])
 		authorize @lich, :daotao?
 		temp = LichTrinhGiangDay.select {|l| @lich.conflict?(l)}
 		temp2 = LichTrinhGiangDay.select {|l| @lich.conflict_sinh_vien?(l)}
@@ -39,7 +39,7 @@ class Daotao::LichTrinhGiangDaysController < ApplicationController
 	end
 
 	def daduyet
-		@lichs = LichTrinhGiangDay.daduyet.map {|l| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(l))}
+		@lichs = LichTrinhGiangDay.includes(:lop_mon_hoc).includes(:giang_vien).daduyet.map {|l| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(l))}
 		render json: @lichs, :root => false
 	end
 end

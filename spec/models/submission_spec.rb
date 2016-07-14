@@ -8,16 +8,16 @@ describe Submission do
   	ag = lop.assignment_groups.create(name: "Thuc Hanh", weight: 50, giang_vien_id: gv.id)
   	as = ag.assignments.create(name: "BT1", points: 10, giang_vien_id: gv.id)  	
   	
-  	as.can_destroy?.should be_true
-  	ag.can_destroy?.should be_true
+  	as.can_destroy? expect be_true
+  	ag.can_destroy? expect be_true
   	sub = as.submissions.where(sinh_vien_id: sv.id, giang_vien_id: gv.id).first_or_create!  	
   	
   	
-    as.can_destroy?.should be_true
+    as.can_destroy? expect be_true
     sub.grade = 10
     sub.save!
-    as.reload.can_destroy?.should be_false
-    ag.reload.can_destroy?.should be_false
+    as.reload.can_destroy? expect be_false
+    ag.reload.can_destroy? expect be_false
     expect {ag.destroy}.to raise_error
   end
 end

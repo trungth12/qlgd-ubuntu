@@ -3,11 +3,11 @@ class Thanhtra::LichTrinhGiangDaysController < ApplicationController
 	def index
 		date = Date.strptime(params[:date], '%d/%m/%Y')
 		tomorrow = date + 1.day
-		@lichs = LichTrinhGiangDay.includes_vi_pham.thanhtra.where(["thoi_gian > ? and thoi_gian < ?", date.to_time.utc, tomorrow.to_time.utc]).map {|l| LichViPhamSerializer.new( LichViPhamDecorator.new(l) )}
+		@lichs = LichTrinhGiangDay.includes(:vi_pham).thanhtra.where(["thoi_gian > ? and thoi_gian < ?", date.to_time.utc, tomorrow.to_time.utc]).map {|l| LichViPhamSerializer.new( LichViPhamDecorator.new(l) )}
 		render json: @lichs, :root => false
 	end
 	def update
-		@lich = LichTrinhGiangDay.includes_vi_pham.find(params[:lich_id])
+		@lich = LichTrinhGiangDay.includes(:vi_pham).find(params[:lich_id])
 		authorize @lich, :thanhtra?
 		if @lich.vi_pham			
 			@vi_pham = @lich.vi_pham

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Calendar do
   it "should have a so_tiet, so_tuan, thu, tiet_bat_dau, tuan_hoc_bat_dau" do
+    te = FactoryGirl.create(:tenant)
   	lop = FactoryGirl.create(:lop_mon_hoc)
     gv = FactoryGirl.create(:giang_vien)
   	calendar = FactoryGirl.create(:calendar, :lop_mon_hoc => lop, :giang_vien => gv)
@@ -9,14 +10,15 @@ describe Calendar do
   end
 
   it "should require giang vien and lop mon hoc" do 
+    te = FactoryGirl.create(:tenant)
     lop = FactoryGirl.create(:lop_mon_hoc)
     calendar = FactoryGirl.build(:calendar, :lop_mon_hoc => nil)
     gv = FactoryGirl.create(:giang_vien)
-    calendar.valid?.should be_false
+    calendar.valid? expect be_false
     calendar = FactoryGirl.build(:calendar, :lop_mon_hoc => lop, :giang_vien => nil)
-    calendar.valid?.should be_false
+    calendar.valid? expect be_false
     calendar = FactoryGirl.build(:calendar, :lop_mon_hoc => lop, :giang_vien => gv)
-    calendar.valid?.should be_true
+    calendar.valid? expect be_true
   end
   
 
