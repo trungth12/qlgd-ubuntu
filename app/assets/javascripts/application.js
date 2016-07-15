@@ -13,13 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require sortable.min
+//= require Sortable
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker.vi
 //= require react
 //= require select2
 //= require summernote
-//= require spinner
+//= require spin
 //= require jquery.spin
 //= require jquery.mixitup.min
 
