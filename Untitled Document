@@ -1,0 +1,19 @@
+-- Table: public.bangquydoidiem
+
+-- DROP TABLE public.bangquydoidiem;
+
+CREATE TABLE public.bangquydoidiem
+(
+  "Id" integer NOT NULL,
+  "LoaiDiem" integer,
+  "DiemTu" numeric(38,2),
+  "DiemDen" numeric(38,2),
+  "DiemQuyDoi" integer,
+  "Weight" integer,
+  CONSTRAINT bangquydoidiem_pkey PRIMARY KEY ("Id")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.bangquydoidiem
+  OWNER TO postgres;

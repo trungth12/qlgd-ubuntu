@@ -38,7 +38,7 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)
     Tuan.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('tuans') 
-    d = Date.new(2014, 1, 13)
+    d = Date.new(2016,8,15)
     (0..20).each do |t|
         Tuan.where(:stt => t+23, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
     end 
@@ -191,7 +191,7 @@ namespace :hpu do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)    
-    Enrollment.delete_all
+   # Enrollment.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('enrollments')
     @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_mon_hoc_sinh_vien_hk)

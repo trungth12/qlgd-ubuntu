@@ -1,1 +1,0 @@
-"E:\Redis\redis-server.exe" "E:\Redis\redis-qlgd.conf"
