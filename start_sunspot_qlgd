@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /home/tuyendv/qlgd-test/
+
+RAILS_ENV=production bundle exec rake sunspot:solr:run 
+##& echo $! >>/home/tuyendv/qlgd-test/start_sunspot_qlgd.pid

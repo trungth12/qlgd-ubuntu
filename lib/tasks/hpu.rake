@@ -50,7 +50,7 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)
     #GiangVien.delete_all
     #ActiveRecord::Base.connection.reset_pk_sequence!('giang_viens') 
-  	@client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+  	@client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:danh_sach_can_bo_giang_vien)         
     res_hash = response.body.to_hash                
     ls = res_hash[:danh_sach_can_bo_giang_vien_response][:danh_sach_can_bo_giang_vien_result][:diffgram][:document_element]
@@ -78,7 +78,7 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)
     #LopMonHoc.delete_all
     #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:tkb_theo_giai_doan)         
     res_hash = response.body.to_hash                
     ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
@@ -96,7 +96,7 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)
     #LopMonHoc.delete_all
     #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:phan_mon_cua_sinh_vien_theo_ky_hien_tai)         
     res_hash = response.body.to_hash                
     ls = res_hash[:phan_mon_cua_sinh_vien_theo_ky_hien_tai_response][:phan_mon_cua_sinh_vien_theo_ky_hien_tai_result][:diffgram][:document_element]
@@ -124,7 +124,7 @@ namespace :hpu do
     ActiveRecord::Base.connection.reset_pk_sequence!('lich_trinh_giang_days') 
     Calendar.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('calendars') 
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:tkb_theo_giai_doan)         
     res_hash = response.body.to_hash                
     ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
@@ -148,7 +148,7 @@ namespace :hpu do
     #ActiveRecord::Base.connection.reset_pk_sequence!('sinh_viens')
     # attr_accessible :gioi_tinh, :ho_dem, :lop_hc, :ma_he_dao_tao, :ma_khoa_hoc, :ma_nganh, :ma_sinh_vien, :ngay_sinh, :ten, :trang_thai, :ten_nganh
 
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:sinh_vien_dang_hoc)
     res_hash = response.body.to_hash
     ls = res_hash[:sinh_vien_dang_hoc_response][:sinh_vien_dang_hoc_result][:diffgram][:document_element]
@@ -193,7 +193,7 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)    
    # Enrollment.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('enrollments')
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_mon_hoc_sinh_vien_hk)
     res_hash = response.body.to_hash
     ls = res_hash[:lop_mon_hoc_sinh_vien_hk_response][:lop_mon_hoc_sinh_vien_hk_result][:diffgram][:document_element]
@@ -211,7 +211,7 @@ namespace :hpu do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)        
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_ghep_hoc_ky)
     res_hash = response.body.to_hash
     ls = res_hash[:lop_ghep_hoc_ky_response][:lop_ghep_hoc_ky_result][:diffgram][:document_element]
@@ -303,7 +303,7 @@ namespace :hpu do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:phong_hoc)
     res_hash = response.body.to_hash
     ls = res_hash[:phong_hoc_response][:phong_hoc_result][:diffgram][:document_element]
@@ -318,7 +318,7 @@ namespace :hpu do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
-    @client = Savon.client(wsdl: "http://10.1.0.238:8082/HPUWebService.asmx?wsdl")
+    @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:danh_muc_mon_hoc)
     res_hash = response.body.to_hash
     ls = res_hash[:danh_muc_mon_hoc_response][:danh_muc_mon_hoc_result][:diffgram][:document_element]

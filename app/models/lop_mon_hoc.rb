@@ -24,7 +24,7 @@ class LopMonHoc < ActiveRecord::Base
   scope :select_all, -> {select('id, ma_lop, ma_mon_hoc, ten_mon_hoc, state')}
   FACETS = [:ma_lop, :ten_mon_hoc, :hoc_ky, :nam_hoc]
   searchable do
-    text :ma_lop, boost: 5.0
+    text :ma_lop, :boost => 5.0
     text :ten_mon_hoc, :de_cuong_chi_tiet
     text :lich_trinh_giang_days do
       lich_trinh_giang_days.map { |lich| lich.noi_dung }

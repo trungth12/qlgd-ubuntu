@@ -55,7 +55,7 @@ class LichTrinhGiangDay < ActiveRecord::Base
 
   FACETS = [:ma_lop, :ten_mon_hoc, :giang_vien, :phong, :tuan, :hoc_ky, :nam_hoc]
   searchable do
-    text :ten_mon_hoc, boost: 5.0
+    text :ten_mon_hoc, :boost => 5.0
     text :noi_dung, :phong, :tuan, :hoc_ky, :nam_hoc, :ma_lop, :ten_giang_vien
     text :thoi_gian do 
       thoi_gian.localtime.strftime("%d/%m/%Y")

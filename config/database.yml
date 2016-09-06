@@ -30,7 +30,7 @@ production:
   host: localhost
   port: 5432
   username: postgres
-  password: 1234567
+  password: hpu qtm 123456987
   database: qlgd
   pool: 5
   timeout: 5000

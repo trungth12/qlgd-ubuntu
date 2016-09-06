@@ -47,7 +47,7 @@ class Enrollment < ActiveRecord::Base
  def tinhhinhvang
     tmp = lop_mon_hoc.khoi_luong_du_kien.to_i
 	  tmp = 10000 if tmp == 0
-     ((tong_vang * 100.0) / tmp).round(2);
+     (((tong_vang || 0) * 100.0) / tmp).round(2);
   end
 
 private

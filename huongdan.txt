@@ -1,0 +1,303 @@
+﻿E:\qlgd-test_octopus\backup_qlgd.bat //password PG & command backup
+https://github.com/checkraiser/qlgd/wiki
+
+Yêu cầu:
+Windows Server 2008
+
+* Cài đặt:
+
+1. Tải và cài đặt Ruby 1.9.3-p545
+http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p545.exe?direct
+Cài xong chạy cmd:
+gem install bundler
+
+2. Tải Development Kit For use with Ruby 1.8.7 and 1.9.3:
+https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe
+cd <DEVKIT_INSTALL_DIR> from Step 3 above.
+ruby dk.rb init
+ruby dk.rb install
+
+3. Cài PostgreSQL 9.3.4
+http://get.enterprisedb.com/postgresql/postgresql-9.3.4-3-windows.exe
+
+4. Tạo CSDL, gán quyền truy cập cho user
+
+5. Cài JDK
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+6. Cài đặt và cấu hình Redis 2.4.6 (cache)
+https://github.com/downloads/rgl/redis/redis-2.4.6-setup-32-bit.exe
+Trong thư mục redis, tạo file redis-qlgd.conf với nội dung: port 6481
+hoặc copy file redis-qlgd.conf vào thư mục E:\Redis
+
+7. Copy nginx vào ổ C:
+khởi động nginx-1.2.3:
+nginx
+Stop cổng 80 trên IIS và disable SQL Server Reporting services
+
+8. Tải và copy code lên server.
+https://github.com/checkraiser/qlgd
+
+9. Cấu hình database tại file config trong thư mục config/database.yml của thư mục code
+Sử dụng cấu hình production:
+Thêm biến hệ thống: RAILS_ENV: production
+hoặc mỗi lần mở cmd chạy trước lệnh
+set RAILS_ENV=production
+Thêm vào biến PATH: C:\Ruby193\bin hoặc E:\Ruby193\bin
+
+10. Chạy cmd tại thư mục code, gõ lệnh:
+cd c:\qlgd
+
+11. Cài thư viện:
+bundle install
+
+12. Xóa conf
+Lưu thư mục C:\qlgd\solr\conf
+Xóa thư mục C:\qlgd\solr
+rails g sunspot_rails:install
+lệnh trên không chạy được thì bỏ qua
+Copy đè conf vào C:\qlgd\solr\ nếu solr đang chạy thì phải tắt đi để copy đè.
+
+13. Xóa file qlgd\tmp\pids\server.pid
+
+--STAR 1 KỲ TỪ ĐIỂM NÀY
+--Bắt đầu 1 kỳ phải chỉnh sửa số 14, sau đó biên dịch lại, việc sửa này tiến hành trước khi chạy web
+--Trước khi thực hiện sửa code cần stop website, bằng task manager windown (process Exporer) khi start_qlgd.bat chạy qlgd có 3 process, cần end cả 3 process này, các proces này có đường dẫn từ qlgd-test_octopus, Kill process tree 3 process có đường dẫn như trên
+
+14. Chỉnh tuần bắt đầu trong các file (range(1,22) cho học kỳ 1 hoặc range(23,42) cho học kỳ 2):
+-- Mở file	"E:\qlgd-test_octopus\app\assets\javascripts\daotao\calendar.js.jsx" tìm range(23,42) để sửa đúng với kỳ sẽ khởi tạo, ở dòng 197
+	
+Chạy compile.bat (E:\qlgd-test_octopus)
+--sau khi biên dịch xong, code chứa trong thư mục public (E:\qlgd-test_octopus\public\assets), copy sang ngix (E:\nginx-1.2.3\html\qlgd) để chạy website
+--chạy website bằng lệnh start ("E:\qlgd-test_octopus\start_qlgd.bat"), bình thường khi lấy dữ liệu thì chạy lại website, nếu khởi động lại server thì ngix tự động chạy	
+* Copy các thư mục trong public vào thư mục html của nginx
+
+* Chạy website bằng tay trước khi lấy dữ liệu:
+Chạy file start.bat
+
+* Mỗi ngày khởi động lại hệ thống 1 lần nếu không sẽ xảy ra một số lỗi: không hiển thị duyệt đăng ký ... Hiện nay đang đặt lịch 5h AM trên 10.1.0.236, nếu chạy thủ công thì khởi động lai máy chủ.
+
+--Đầu kỳ chạy lệnh tạo CSDL qlgdmaster(nếu có rồi thì thôi, nếu cài đặt mưới chưa có db này thì tạo db này), taọ bảng trong database bằng lệnh bundle exec rake db:migrate
+--Khi db có rồi chỉ sửa: Thêm sữ liệu vào bảng tenants các thông tin cho Học kỳ khởi tạo:
+--hoc_ky: hiện tại, nam_hoc: hiện tại, created_at, updated_at, database: của học kỳ mới, sẽ tạo database này ở câu lệnh phía dưới. table này --chỉ có 1 row, ID luôn = 1
+Chạy 1 lần ban đầu:
+Tạo databse qlgdmaster
+Tạo bảng cho databse qlgdmaster:
+bundle exec rake db:migrate
+
+Tạo bản ghi chứa thông tin kết nối database học kỳ hiện tại trong qlgdmaster:
+INSERT INTO tenants(
+	id, hoc_ky, nam_hoc, created_at, 
+	updated_at, host, adapter,
+	database, username, password, port)
+VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
+	'2016/08/14 00:00:00', 'localhost', 'postgresql',
+	'qlgd20162017hk1', 'qlgd', 'qlgd 1234 9876', '5432');
+
+
+--Chạy 1 lần vào đầu kỳ
+--Tạo ra 1 db mới cho kỳ tiếp theo tên là "qlgd20152016hk2", sau đó tạo các table trong db bằng lệnh bundle exec rake db:migrate
+--Cần quyền cao nhất của db, user:postgres pass:hpu qtm qlgd 
+
+1. tạo database qlgd20152016hk2 rồi tạo bảng bằng lệnh: (cần thông tin trong db qlgdmaster bảng tenants chính xác để tạo bảng đúng trong db qlgd20152016hk2)
+bundle exec rake db:migrate
+
+--Để cho soft chuyển điểm quá trình từ qlgd sang edu cần thêm các bảng và dữ liệu phục vụ cho hệ thống chuyển điểm
+--create và insert bảng bangquydoidiem từ kỳ cũ sang với quyền user qlgd: (db: qlgd20152016hk2 sử dụng quyền qlgd với password, cần dùng --quyền này để tạo bảng sẽ gắn quyền này cho bảng, nếu dùng admin của postgre thì sẽ bị cấm cái gì đó)
+CREATE TABLE "public"."bangquydoidiem" (
+	"Id" integer NOT NULL PRIMARY KEY, 
+	"LoaiDiem" integer, 
+	"DiemTu" numeric(38, 2), 
+	"DiemDen" numeric(38, 2), 
+	"DiemQuyDoi" integer, 
+	"Weight" integer
+);
+
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,1,0.00,0.00,4,40);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,1,0.01,7.00,3,40);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,1,7.01,14.00,2,40);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (4,1,14.01,20.00,1,40);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (5,1,20.01,100.00,0,40);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (6,2,9.00,10.00,3,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (7,2,7.00,8.99,2,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (8,2,5.00,6.99,1,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (9,2,0.00,4.99,0,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (10,2,10.00,10.00,6,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (11,2,9.00,9.99,5,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (12,2,8.00,8.99,4,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (13,2,7.00,7.99,3,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (14,2,6.00,6.99,2,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (15,2,5.00,5.99,1,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (16,2,0.00,4.99,0,60);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (17,3,9.00,10.00,3,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (18,3,7.00,8.99,2,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (19,3,5.00,6.99,1,30);
+INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (20,3,0.00,4.99,0,30);
+
+
+create 2 trường trang_thai_chuyen_diem integer và nhatky text cho bảng enrollments:
+ALTER TABLE enrollments ADD COLUMN trang_thai_chuyen_diem integer;
+ALTER TABLE enrollments ADD COLUMN nhatky text;
+
+Tạo bản ghi chứa thông tin kết nối database học kỳ hiện tại trong qlgd20152016hk2:
+--bảng tenants của db qlgd20152016hk2 chưa có dữ liệu đưa các row giống như mô tả ở trên
+INSERT INTO tenants(
+	id, hoc_ky, nam_hoc, created_at, 
+	updated_at, host, adapter,
+	database, username, password, port)
+VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
+	'2016/08/14 00:00:00', 'localhost', 'postgresql',
+	'qlgd20162017hk1', 'qlgd', 'qlgd 1234 9876', '5432');
+
+
+--Đến đây đã khởi tạo xong db, tiếp theo cần lấy dữ liệu từ Edu sang qlgd
+2. Lấy dữ liệu tuần (tuans):
+--Chỉnh "ngày bắt đầu" và "tuần bắt đầu" (t+1 cho hk1 hoặc t+23 cho hk2) trong 10.1.0.236 "E:\qlgd-test_octopus\lib\tasks\qtm.rake", 
+--nhãn #1 Load tuan
+bundle exec rake qtm:load_tuan
+
+3. Lấy phòng (phongs):
+bundle exec rake qtm:load_phong
+
+4. Lấy danh sách môn học (mon_hocs):
+bundle exec rake qtm:load_mon_hoc
+
+5. Lấy danh sách sinh viên (sinh_viens):
+--Trong trường hợp tuyển sinh nhiều ngày, mỗi khi Đào tạo yêu cầu lấy dữ liệu SV, chạy lệnh sau, sẽ chỉ lây thêm SV mới nhập học và cập nhật thông tin SV cũ nếu có thay đổi (đổi lớp)
+bundle exec rake qtm:load_sinh_vien
+
+--Chạy SQL để fix ngày sinh
+--UPDATE sinh_viens
+--SET ngay_sinh = cast(ngay_sinh as date) + integer '1'
+--hoặc
+--sửa code trong load_sinh_vien trước khi chạy:
+--	thêm
+--		ns = ns + 1
+--	vào sau
+--		ns = l[:ngay_sinh].to_time if l[:ngay_sinh]
+--	và đổi
+--	ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%d%m%Y")
+--	thành
+--	ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%Y%m%d")
+--đã sửa code cho ngày sinh chính xác, chỉ cần chạy câu lệnh load_sinh_vien
+	
+6. Lấy danh sách giảng viên (giang_viens):
+bundle exec rake qtm:load_giang_vien
+
+--7' load_lop_mon_hoc
+bundle exec rake qtm:load_lop_mon_hoc
+
+7. Lấy danh sách lớp môn học sinh viên:
+bundle exec rake qtm:load_sinh_vien_lop_mon_hoc
+
+
+--Bỏ qua 8 vì Đã sửa task gộp vào load_lop_mon_hoc -> bỏ qua lệnh này
+--8. Thêm thời khóa biểu và giảng viên chính (Đã sửa task gộp vào load_lop_mon_hoc -> bỏ qua lệnh này):
+--bundle exec rake qtm:load_calendar
+
+9. Tạo lịch trình giảng dạy, cấu hình lớp học:
+bundle exec rake qtm:start_lop
+
+--Từ 10 trở đi là thêm các group(quản trị, thanh tra, đào tạo) vào qlgd. chạy lệnh SQL
+10.
+Chạy script groups-INSERT; users-INSERT; user_groups-INSERT
+
+INSERT INTO "groups" ("id","name","description","created_at","updated_at") VALUES (1,'dao_tao',NULL,'2014/01/15 08:14:00.0074740','2014/01/15 08:18:02.6674740');
+INSERT INTO "groups" ("id","name","description","created_at","updated_at") VALUES (2,'dao_tao_duyet',NULL,'2014/01/16 04:16:10.9564740','2014/01/16 04:16:10.9564740');
+INSERT INTO "groups" ("id","name","description","created_at","updated_at") VALUES (3,'thanh_tra',NULL,'2014/01/21 06:48:41.833','2014/01/21 06:48:41.833');
+INSERT INTO "groups" ("id","name","description","created_at","updated_at") VALUES (4,'superadmin',NULL,'2014/04/17 06:59:38','2014/04/17 06:59:38');
+
+--Thêm user vào abgnr users
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (1,'vtchien@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','vtchien@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971008003'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (2,'trungth@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','trungth@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1972000037'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (3,'tuyendv@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','tuyendv@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971008012'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (4,'thanhntm@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','thanhntm@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971003008'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (5,'hkchung@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','hkchung@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '97030009'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (6,'thienpv@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','thienpv@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '01020001'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (7,'hangtn@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','hangtn@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '09030012'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (8,'hoattt@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','hoattt@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '09030013'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (9,'tuanha@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','tuanha@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971025006'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (10,'phinga@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','phinga@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '02080037'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (11,'thuongpt@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','thuongpt@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '01030021'),'GiangVien');
+
+--Đưa user vào group
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (1,1,4,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (2,2,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (3,3,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (4,4,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (5,5,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (10,5,2,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (6,6,3,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (7,7,3,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (8,8,3,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (9,9,3,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (11,10,3,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (12,11,4,'2014/08/08','2014/08/08');
+
+
+--Không chạy lệnh này vì "Đã sửa task chỉ lấy những lớp có TKB không phải chạy lệnh này nữa"
+11. Chuyển trạng thái pending/removed  những lớp không có lịch trình (sau tuần đầu cho DT chỉnh sửa mới chạy)
+Đã sửa task chỉ lấy những lớp có TKB không phải chạy lệnh này nữa
+UPDATE lop_mon_hocs
+SET state = 'removed'
+WHERE id NOT IN (SELECT DISTINCT lop_mon_hoc_id FROM lich_trinh_giang_days)
+
+--Sau khi lấy hết dữ liệu, đánh chỉ mục để sử dụng chức của đào tào trên web
+12.
+bundle exec rake qtm:reindex
+
+--Cuối kỳ trước khi thanh tra thống kê khối lượng thực hiện chạy lich_trinh_giang_days-UPDATE-so_tiet_moi (đã fix code không phải chạy nữa)
+
+
+--Từ 13 là sao lưu dữ lieuj và lập lịch khởi độngwwebsite
+--Theo file "\\10.1.0.236\, "E:\qlgd-test_octopus\backup_qlgd.bat" Tạo ra các thư mục mới để chứa các file backup
+13. Chỉnh và tạo thư mục backup trong backup_qlgd.bat
+
+14. Lập lịch khởi động khi Server startup với 1.bat; 2.bat; 3.bat trong thư mục qlgd và 1.bat trong thư mục nginx
+--1,2,3 khởi tạo xong web
+--4 không dùng nữa, cũ là khởi tạo proxy, hiện tại thay thế = 1 trong ngins
+--1 trong ngins để khởi tạo proxy
+
+15. Cấu hình Firewall Window cho phép cổng 85; file nginx.exe --làm 1 lần
+
+16. Cài đặt và đặt lịch khởi động decuong.hpu.edu.vn
+--Phần này hiện tại không đưa thêm gì nữa
+* Update code:
+1. Lấy code từ:
+https://github.com/checkraiser/qlgd
+--Code hiện tại đã lưu trong 208/Backup decuong-20151110.zip
+2. Xóa thư mục solr của code mới
+
+3. Xóa file config/database.yml của code mới
+
+4. Copy đè vào code cũ
+
+5. Khởi động lại solr
+bundle exec rake sunspot:solr:run
+
+6. Khởi động lại web
+bundle exec thin start -p 85
+
+Site đang đặt tại 10.1.0.236 thư mục E:\qlgd-test_octopus
+Backup CSDL:
+  + Trên thư mục E:\dbbackup\qlgd của 10.1.0.236 và \\10.1.0.208\DatabaseBackup\qlgd
+Tài khoản My Cloud để sao lưu CSDL:
+  + Tài khoản: dbbackup
+  + Mật khẩu: dbbackup @123456987%
+
+Mat khau CSDL qlgd tai "E:\qlgd-test_octopus\config\database.yml"
+production:
+  adapter: postgresql
+  host: localhost
+  port: 5432
+  username: qlgd
+  password: qlgd 1234 9876
+  database: qlgdmaster
+  pool: 5
+  timeout: 5000
+
+--Lớp đã hoàn thành, mở khóa cho GV tiếp tục cập nhật, chạy "\\10.1.0.208\DataBackup\QLGD\Scripts\lop_mon_hocs-UPDATE-started.txt" tham số là ID của lớp, xem trên qlgd
+--báo cáo tuần: mỗi kỳ tạo 1 thư mục, các scrips tại "\\10.1.0.208\DataBackup\QLGD\Reports\2015-2016hk2\Script.txt"
+--Trong file scrip trên, search với "tuan = 35" thay thế tất cả với "tuan = 36"
+--Copy toàn bộ, paste vào querry của QSL

@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /home/tuyendv/qlgd-test/config
+
+redis-server redis6481.conf 
+##& echo $! >>/home/tuyendv/qlgd-test/start_redis_qlgd.pid

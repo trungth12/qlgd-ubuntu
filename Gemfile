@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '4.2.6'
 gem 'sqlite3'
-
+gem 'exception_notification'
 group :assets do
   gem 'sass-rails'   
   gem 'coffee-rails' 

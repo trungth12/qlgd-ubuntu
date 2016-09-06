@@ -27,8 +27,8 @@ namespace :qtm do
       Tuan.delete_all
       ActiveRecord::Base.connection.reset_pk_sequence!('tuans') 
       d = Date.new(2016,8,15)
-      (0..20).each do |t|
-          Tuan.where(:stt => t+23, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
+      (0..21).each do |t|
+          Tuan.where(:stt => t+1, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
       end 
     end
   end
@@ -82,10 +82,10 @@ namespace :qtm do
           ho = tmp[0]
           dem = tmp[1..-1].join(" ")
           ns = l[:ngay_sinh].to_time if l[:ngay_sinh]
-		  ns = ns + 1
+		      ns = ns + 1
           ten =  titleize(l[:ten].strip.downcase) if l[:ten] and l[:ten].is_a?(String)
           #ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%d%m%Y")
-		  ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%Y%m%d")
+		      ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%Y%m%d")
           SinhVien.create!(
             gioi_tinh: (l[:gioi_tinh] ? 1 : 0),
             ho: ho,
@@ -227,7 +227,7 @@ namespace :qtm do
     Octopus.using(tenant.database) do  
       LopMonHoc.all.each do |lop|
         #if lop.id > 606
-			lop.start!
+			lop.start! unless lop.started?
 			lop.generate_calendars
 		#end
       end

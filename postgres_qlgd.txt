@@ -1,23 +1,39 @@
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,1,0,0,4,40);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,1,0,7,3,40);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,1,7,14,2,40);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (4,1,14,20,1,40);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (5,1,20,100,0,40);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (6,2,9,10,3,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (7,2,7,9,2,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (8,2,5,7,1,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (9,2,0,5,0,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (10,2,10,10,6,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (11,2,9,10,5,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (12,2,8,9,4,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (13,2,7,8,3,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (14,2,6,7,2,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (15,2,5,6,1,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (16,2,0,5,0,60);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (17,3,9,10,3,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (18,3,7,9,2,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (19,3,5,7,1,30);
-INSERT INTO "bangquydoidiem" ("Id","LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (20,3,0,5,0,30);
+CREATE TABLE public.bangquydoidiem
+(
+  "Id" integer NOT NULL,
+  "LoaiDiem" integer,
+  "DiemTu" numeric(38,2),
+  "DiemDen" numeric(38,2),
+  "DiemQuyDoi" integer,
+  "Weight" integer,
+  CONSTRAINT bangquydoidiem_pkey PRIMARY KEY ("Id")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.bangquydoidiem
+  OWNER TO postgres;
+
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,0,0,4,40);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,0,7,3,40);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,7,14,2,40);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,14,20,1,40);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (1,20,100,0,40);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,9,10,3,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,7,9,2,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,5,7,1,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,0,5,0,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,10,10,6,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,9,10,5,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,8,9,4,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,7,8,3,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,6,7,2,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,5,6,1,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (2,0,5,0,60);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,9,10,3,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,7,9,2,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,5,7,1,30);
+INSERT INTO "bangquydoidiem" ("LoaiDiem","DiemTu","DiemDen","DiemQuyDoi","Weight") VALUES (3,0,5,0,30);
 
 
 INSERT INTO "tenants" ("hoc_ky","nam_hoc","ngay_bat_dau","ngay_ket_thuc","name","created_at","updated_at","host","adapter","database","username","password","port") VALUES ('1','2016-2017',NULL,NULL,NULL,'2016/08/15','2016/08/15','localhost','postgresql','qlgd','postgres','123456','5432');
