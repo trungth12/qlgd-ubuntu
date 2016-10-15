@@ -96,9 +96,9 @@ order by ag.position"
     @sinh_vien = SinhVien.find(params[:sinh_vien_id]) 
     @enrollments = @sinh_vien.enrollments.includes(:lop_mon_hoc).select {|en| !en.lop_mon_hoc.nil?} 
     @lops = @enrollments.map {|en| en.lop_mon_hoc if en.lop_mon_hoc and !en.lop_mon_hoc.removed? }.select {|l| !l.nil? }.uniq
-    @lichs = @lops.inject([]) {|res, elem| res + elem.lich_trinh_giang_days}.sort_by {|l| [l.thoi_gian, l.phong]}
+    @lichs = @lops.inject([]) {|res, elem| res + elem.lich_trinh_giang_days}.sort_by {|l| [l.thoi_gian, l.phong || ""]}
     
-	#query= "SELECT lmh.id ,lmh.state ,lmh.ma_lop ,lmh.ma_mon_hoc ,lmh.ten_mon_hoc ,rtrim(gv.ho) || ' ' || CASE WHEN gv.dem IS NULL OR gv.dem = '' THEN '' ELSE rtrim(gv.dem) || ' ' END || rtrim(gv.ten) giang_vien ,erm.tinhhinh ,erm.diem_qua_trinh FROM enrollments erm JOIN sinh_viens sv ON erm.sinh_vien_id = sv.id JOIN lop_mon_hocs lmh ON erm.lop_mon_hoc_id = lmh.id JOIN assistants ast ON lmh.id = ast.lop_mon_hoc_id JOIN giang_viens gv ON ast.giang_vien_id = gv.id WHERE sv.code = '#{@sinh_vien.code}' ORDER BY lmh.ten_mon_hoc"      
+	  #query= "SELECT lmh.id ,lmh.state ,lmh.ma_lop ,lmh.ma_mon_hoc ,lmh.ten_mon_hoc ,rtrim(gv.ho) || ' ' || CASE WHEN gv.dem IS NULL OR gv.dem = '' THEN '' ELSE rtrim(gv.dem) || ' ' END || rtrim(gv.ten) giang_vien ,erm.tinhhinh ,erm.diem_qua_trinh FROM enrollments erm JOIN sinh_viens sv ON erm.sinh_vien_id = sv.id JOIN lop_mon_hocs lmh ON erm.lop_mon_hoc_id = lmh.id JOIN assistants ast ON lmh.id = ast.lop_mon_hoc_id JOIN giang_viens gv ON ast.giang_vien_id = gv.id WHERE sv.code = '#{@sinh_vien.code}' ORDER BY lmh.ten_mon_hoc"      
     #lop_ids = ActiveRecord::Base.connection.execute(query).map{|l| l["id"]}.uniq
     #@enrollments = @sinh_vien.enrollments.includes(:lop_mon_hoc).where("enrollments.lop_mon_hoc_id" => lop_ids)
     #@lops = LopMonHoc.where(:id => lop_ids)

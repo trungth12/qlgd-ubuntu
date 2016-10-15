@@ -10,15 +10,23 @@ class Teacher::LichTrinhGiangDaysController < ApplicationController
 	def home
 		@tuans = Tuan.all
 		@active_tuan = Tuan.active.first.try(:stt)
-		@lichs = current_user.get_lichs
+		@lichs = []
+		unless current_user.get_lichs.nil?
+			@lichs = current_user.get_lichs
+		end			
 		if @lichs.count > 0
 			@lichs2 = @lichs.map{|k| Daotao::LichTrinhGiangDaySerializer.new(Daotao::LichTrinhGiangDayDecorator.new(k))}.group_by {|g| g.tuan}
 			@t = @lichs2.keys.inject([]) {|res, elem| res << {:tuan => TuanSerializer.new(@tuans.select {|t| t.stt == elem}.first.decorate), :colapse => "tuan#{elem}" , :active => (@active_tuan == elem), :data => @lichs2[elem]}}		
+		else 
+			@t = []
 		end
 		render json: @t, :root => false
 	end
 	def thanhtra						
-		@lichs = current_user.get_lichs.select {|l| l and  l.reported? or l.confirmed? or l.accepted? or l.requested? }
+		@lichs = []
+		unless current_user.get_lichs.nil?
+			@lichs = current_user.get_lichs.select {|l| l and  l.reported? or l.confirmed? or l.accepted? or l.requested? }
+		end
 		if @lichs and @lichs.count > 0
 			@lichs2 = @lichs.map {|l| LichViPhamSerializer.new( LichViPhamDecorator.new(l) )}		
 		else
@@ -65,7 +73,7 @@ class Teacher::LichTrinhGiangDaysController < ApplicationController
 		end
 		render json: @lichs2, :root => false	
 	end
-	def accept
+	def accept2
 		@lich = LichTrinhGiangDay.find(params[:lich_id])
 		authorize @lich, :update?
 		if @lich.vi_pham			

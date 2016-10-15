@@ -155,13 +155,14 @@ namespace :qtm do
 			lop = LopMonHoc.where(:ma_lop => l[:ma_lop].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
 			
 			#Add calendar and assistant
-			puts l.inspect
+			#puts l.inspect
 			gv = GiangVien.where(code: l[:ma_giao_vien].strip.upcase).first
-			#if lop.id > 606
+			if lop.id > 382
+        puts l.inspect
 				calendar = lop.calendars.where(:so_tiet => l[:so_tiet], :so_tuan => l[:so_tuan_hoc], :thu => l[:thu], :tiet_bat_dau => l[:tiet_bat_dau], :tuan_hoc_bat_dau => l[:tuan_hoc_bat_dau], :giang_vien_id => gv.id).first_or_create!
 				calendar.update_attributes(phong: (l[:ma_phong_hoc].strip if l.has_key?(:ma_phong_hoc) and l[:ma_phong_hoc].is_a?(String)))
 				lop.assistants.where(giang_vien_id: gv.id).first_or_create!
-			#end
+			end
 		end
 
 	end
@@ -182,11 +183,12 @@ namespace :qtm do
       ls.each_with_index do |l,i|       
         #lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
 	lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first
-        if lop			
+        if lop and lop.id >382		
 		mon = MonHoc.where(:ma_mon_hoc => l[:ma_mon_hoc].strip.upcase).first_or_create!
 	        mon.ten_mon_hoc = titleize(l[:ten_mon_hoc].strip.downcase)
-	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]) ).first      
-	        if sv #and lop.id > 606
+	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]), :khoa => 'Khóa 20' ).first      
+	        if sv and lop.id > 382
+            puts l.inspect
 	          lmhsv = lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
 	        else
 	          puts "#{l[:ma_sinh_vien]}"
@@ -226,10 +228,10 @@ namespace :qtm do
     tenant = Tenant.last
     Octopus.using(tenant.database) do  
       LopMonHoc.all.each do |lop|
-        #if lop.id > 606
+        if lop.id > 382
 			lop.start! unless lop.started?
 			lop.generate_calendars
-		#end
+		end
       end
     end
   end  

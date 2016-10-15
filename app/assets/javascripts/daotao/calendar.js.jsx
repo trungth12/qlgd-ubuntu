@@ -198,8 +198,8 @@ var TaoCalendar = React.createClass({
 		this.props.onAdd(data);
 	},		
 	render: function(){
-		var tuans = this.range(23,42);
-		var sotuans = this.range(1, 16);
+		var tuans = this.range(1,20);
+		var sotuans = this.range(1, 20);
 		var sotiets = this.range(1, 6);
 		var ttuans = tuans.map(function(d){
 			return <option value={d}>{d}</option>

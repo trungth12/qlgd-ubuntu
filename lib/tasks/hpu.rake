@@ -219,8 +219,11 @@ namespace :hpu do
 
     ls = ls[:lop_ghep_hoc_ky]    
     ls.each do |l|         
+      lop = LopMonHoc.where(ma_lop: l[:ma_lop_ghep].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first_or_create
+     end
+    ls.each do |l|         
       lop = LopMonHoc.where(ma_lop: l[:ma_lop_ghep].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
-      sv = SinhVien.where(code: l[:ma_sinh_vien].strip.upcase).first
+      sv = SinhVien.where(code: l[:ma_sinh_vien].strip.upcase, :khoa => 'Khóa 20').first
       if lop and sv
         lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
       end

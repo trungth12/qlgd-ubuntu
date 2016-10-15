@@ -1,4 +1,7 @@
 #!/bin/bash
+
+source ~/.rvm/scripts/rvm
+
 cd /home/tuyendv/qlgd-test/config
 
 redis-server redis6481.conf 
