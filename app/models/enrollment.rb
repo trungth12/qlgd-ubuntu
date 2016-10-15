@@ -15,7 +15,7 @@ class Enrollment < ActiveRecord::Base
   before_destroy :delete_attendances
 
   def tong_vang  
-    (attendances.where(lich_trinh_giang_day_id: lich_trinh_giang_days.not_tuhoc.map(&:id)).not_idle.where('phep is NULL or phep=false').sum(:so_tiet_vang) || 0)
+    attendances.where(lich_trinh_giang_day_id: lich_trinh_giang_days.not_tuhoc.map(&:id)).not_idle.where('phep is NULL or phep=false').sum(:so_tiet_vang).to_i
   end
   def so_tiet_thua
     attendances.idle.inject(0) {|res, at| (res || 0) + (at.lich_trinh_giang_day.so_tiet || 0) if at.lich_trinh_giang_day.ltype != "tuhoc"}
@@ -45,10 +45,9 @@ class Enrollment < ActiveRecord::Base
     end     
   end
  def tinhhinhvang
-    tmp = (lop_mon_hoc.khoi_luong_du_kien.to_i || 0)
+    tmp = lop_mon_hoc.khoi_luong_du_kien.to_i
 	  tmp = 10000 if tmp == 0
-    return 0 if tinhhinhvang.nil?
-    (((tong_vang || 0) * 100.0) / tmp).round(2)
+    (((tong_vang || 0) * 100.0) / tmp).to_f.round(2)
   end
 
 private
