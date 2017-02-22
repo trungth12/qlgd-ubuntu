@@ -3,7 +3,7 @@ LichTrinhGiangDayPolicy = Struct.new(:user, :lich_trinh_giang_day) do
     def resolve
       if user.nil?
         []
-      elsif UserDecorator.new(user).is_admin? or UserDecorator.new(user).is_dao_tao?
+      elsif UserDecorator.new(user).is_admin? or UserDecorator.new(user).is_dao_tao? or UserDecorator.new(user).is_dao_tao_duyet?
         lich_ids = user.get_lichs.map(&:id)
         lich_trinh_giang_day_scope.where(:id => lich_ids)
       else
