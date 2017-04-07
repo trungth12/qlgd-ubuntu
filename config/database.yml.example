@@ -25,12 +25,3 @@ development:
   pool: 5
   timeout: 5000
 
-production:
-  adapter: postgresql
-  host: localhost
-  port: 5432
-  username: postgres
-  password: hpu qtm 123456987
-  database: qlgd
-  pool: 5
-  timeout: 5000
