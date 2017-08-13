@@ -11,7 +11,7 @@ var DaotaoCalendar = React.createClass({
 	loadData: function(){
 		$.ajax({
  			url: '/daotao/lops',
- 			success: function(data){ 				
+ 			success: function(data){
  				this.setState({data: data.t});
  			}.bind(this)
  		})
@@ -27,15 +27,15 @@ var DaotaoCalendar = React.createClass({
 	},
 	onSearch: function(){
 		var lop_id = $('#timlopcalendar').val();
-		React.unmountAndReleaseReactRootNode(document.getElementById('cc'));		
-		React.renderComponent(<CalendarComponent lop_id={lop_id} />, document.getElementById('cc'));	
+		React.unmountAndReleaseReactRootNode(document.getElementById('cc'));
+		React.renderComponent(<CalendarComponent lop_id={lop_id} />, document.getElementById('cc'));
 	},
 	render: function(){
 		return (
 			<div><hr />
 			<input type="hidden" id="timlopcalendar" placeholder="Lớp môn học" style={{width:"500px"}} class="input-xlarge" />
 			<button class="btn btn-success" onClick={this.onSearch}>Tìm lớp</button>
-			<hr />			
+			<hr />
 			<div id="cc"></div>
 			</div>
 		);
@@ -43,7 +43,7 @@ var DaotaoCalendar = React.createClass({
 });
 var tdata = {
 	tuans: [23, 24, 25, 30, 31, 32, 33],
-	headers: [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]	
+	headers: [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
 };
 var CalendarComponent = React.createClass({
 	getInitialState: function(){
@@ -90,7 +90,7 @@ var CalendarComponent = React.createClass({
 			}.bind(this)
 		})
 	},
-	handleAdd: function(d){		
+	handleAdd: function(d){
 		$.ajax({
 			url: '/daotao/lop_mon_hocs/' + this.props.lop_id + '/calendars/add',
 			type: 'POST',
@@ -111,14 +111,14 @@ var CalendarComponent = React.createClass({
 		})
 	},
 	componentDidUpdate: function(){
-		React.unmountAndReleaseReactRootNode(document.getElementById('tc'));		
-		React.renderComponent(<TaoCalendar giang_viens={this.state.giang_viens} phongs={this.state.phongs} onAdd={this.handleAdd} />, document.getElementById('tc'));		
+		React.unmountAndReleaseReactRootNode(document.getElementById('tc'));
+		React.renderComponent(<TaoCalendar giang_viens={this.state.giang_viens} phongs={this.state.phongs} onAdd={this.handleAdd} />, document.getElementById('tc'));
 	},
 	render: function(){
 		var self = this;
 		var headers = this.state.headers.map(function(d){
 			return <td>{d}</td>
-		});		
+		});
 		var data = this.state.headers.map(function(d){
 			if (self.state.tuans.indexOf(d) >= 0){
 				return <td class="success">H</td>
@@ -186,7 +186,7 @@ var TaoCalendar = React.createClass({
 		var so_tiet = this.refs.so_tiet.getDOMNode().value;
 		var phong = this.refs.phong.getDOMNode().value;
 		var giang_vien_id = this.refs.giang_vien.getDOMNode().value;
-		var data = {			
+		var data = {
 			tuan_hoc_bat_dau: tuan_hoc_bat_dau,
 			so_tuan: so_tuan,
 			thu: thu,
@@ -196,9 +196,9 @@ var TaoCalendar = React.createClass({
 			giang_vien_id: giang_vien_id
 		}
 		this.props.onAdd(data);
-	},		
+	},
 	render: function(){
-		var tuans = this.range(26,45);
+		var tuans = this.range(1,20);
 		var sotuans = this.range(1, 20);
 		var sotiets = this.range(1, 6);
 		var ttuans = tuans.map(function(d){
@@ -227,12 +227,12 @@ var TaoCalendar = React.createClass({
 							<td>Tiết bắt đầu</td>
 							<td>Số tiết</td>
 							<td>Phòng</td>
-							<td>Giảng viên</td>											
+							<td>Giảng viên</td>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>								
+							<td>
 								<select ref="tuan_hoc_bat_dau" class="form-control input-sm">
 									{ttuans}
 								</select>
@@ -242,7 +242,7 @@ var TaoCalendar = React.createClass({
 									{tsotuans}
 								</select>
 							</td>
-							<td>								
+							<td>
 								<select ref="thu" class="form-control input-sm">
 									<option value="2">Thứ hai</option>
 									<option value="3">Thứ ba</option>
@@ -283,11 +283,11 @@ var TaoCalendar = React.createClass({
 									{phongs}
 								</select>
 							</td>
-							<td>								
+							<td>
 								<select ref="giang_vien" class="form-control input-sm">
 									{giang_viens}
 								</select>
-							</td>							
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -324,7 +324,7 @@ var DaotaoCalendarRow = React.createClass({
 					<button style={{"display": this.props.data.can_generate === true ? '' : 'none'}} class="btn btn-sm btn-primary" onClick={this.onGenerate}>Duyệt thực hiện</button>
 					<button style={{"display": this.props.data.can_remove === true ? '' : 'none'}} class="btn btn-sm btn-warning" onClick={this.onDelete}>Xóa</button>
 					<button style={{"display": this.props.data.can_restore === true ? '' : 'none'}} class="btn btn-sm btn-default" onClick={this.onRestore}>Phục hồi</button>
-					<button class="btn btn-sm btn-danger" onClick={this.onDestroy}>Xóa vĩnh viễn</button>					
+					<button class="btn btn-sm btn-danger" onClick={this.onDestroy}>Xóa vĩnh viễn</button>
 				</td>
 			</tr>
 		);

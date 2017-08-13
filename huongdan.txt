@@ -220,20 +220,21 @@ INSERT INTO "users" ("id","email","created_at","updated_at","username","imageabl
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (9,'tuanha@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','tuanha@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971025006'),'GiangVien');
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (10,'phinga@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','phinga@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '02080037'),'GiangVien');
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (11,'thuongpt@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','thuongpt@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '01030021'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (12,'hoangminhhahp@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','hoangminhhahp@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '02030030'),'GiangVien');
 
 --Đưa user vào group
-INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (1,1,4,'2014/08/08','2014/08/08');
-INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (2,2,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (1,1,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (2,2,4,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (3,3,1,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (4,4,1,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (5,5,1,'2014/08/08','2014/08/08');
-INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (10,5,2,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (10,5,1,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (6,6,3,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (7,7,3,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (8,8,3,'2014/08/08','2014/08/08');
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (9,9,3,'2014/08/08','2014/08/08');
-INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (11,10,3,'2014/08/08','2014/08/08');
-INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (12,11,4,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (11,10,1,'2014/08/08','2014/08/08');
+INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (12,11,1,'2014/08/08','2014/08/08');
 
 
 --Không chạy lệnh này vì "Đã sửa task chỉ lấy những lớp có TKB không phải chạy lệnh này nữa"

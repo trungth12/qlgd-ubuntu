@@ -1,62 +1,62 @@
 #encoding: utf-8
 require 'hpu'
-namespace :qtm do    
+namespace :qtm do
   #10
   task reindex:  :environment do
-    Tenant.all.each do |tenant|    
-      #Octopus.using(tenant.database) do 
+    Tenant.all.each do |tenant|
+      #Octopus.using(tenant.database) do
         SinhVien.reindex
-        LopMonHoc.reindex    
+        LopMonHoc.reindex
         LichTrinhGiangDay.reindex
         Sunspot.commit
       #end
     end
   end
 	#0 prepare tenant
-  task create_tenant: :environment do 
+  task create_tenant: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do             
+    Octopus.using(tenant.database) do
         Tenant.where(hoc_ky: tenant.hoc_ky, nam_hoc: tenant.nam_hoc, name: tenant.name).first_or_create!
-    end    
+    end
   end
 	#1 Load tuan
-  task load_tuan: :environment do 
+  task load_tuan: :environment do
     #Apartment::Database.switch('public')
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
       Tuan.delete_all
-      ActiveRecord::Base.connection.reset_pk_sequence!('tuans') 
-      d = Date.new(2017,2,6)
-      (0..22).each do |t|
-          Tuan.where(:stt => t+26, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
-      end 
+      ActiveRecord::Base.connection.reset_pk_sequence!('tuans')
+      d = Date.new(2017,8,14)
+      (0..21).each do |t|
+          Tuan.where(:stt => t+1, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
+      end
     end
   end
   #12: update phong
-  task load_phong: :environment do 
+  task load_phong: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
       @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
       response = @client.call(:phong_hoc)
       res_hash = response.body.to_hash
       ls = res_hash[:phong_hoc_response][:phong_hoc_result][:diffgram][:document_element]
-      ls = ls[:phong_hoc]    
-      ls.each do |l|        
+      ls = ls[:phong_hoc]
+      ls.each do |l|
         Phong.create(ma_phong: l[:ma_phong_hoc].strip, toa_nha: l[:ma_toa_nha].strip, tang: l[:chi_so_tang].to_i, suc_chua_toi_da: l[:so_ban].to_i * l[:he_so_hoc].to_i, loai: l[:kieu_phong])
       end
     end
   end
 
   #13: Danh muc mon hoc
-  task load_mon_hoc: :environment do 
+  task load_mon_hoc: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
       @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
       response = @client.call(:danh_muc_mon_hoc)
       res_hash = response.body.to_hash
       ls = res_hash[:danh_muc_mon_hoc_response][:danh_muc_mon_hoc_result][:diffgram][:document_element]
-      ls = ls[:danh_muc_mon_hoc]    
-      ls.each do |l|        
+      ls = ls[:danh_muc_mon_hoc]
+      ls.each do |l|
         MonHoc.where(ma_mon_hoc: l[:ma_mon_hoc].strip.upcase, ten_mon_hoc: l[:ten_mon_hoc].strip).first_or_create!
       end
     end
@@ -64,7 +64,7 @@ namespace :qtm do
   #2 load giang vien  and sinh vien
   task :load_sinh_vien => :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
     #SinhVien.delete_all
     #ActiveRecord::Base.connection.reset_pk_sequence!('sinh_viens')
     # attr_accessible :gioi_tinh, :ho_dem, :lop_hc, :ma_he_dao_tao, :ma_khoa_hoc, :ma_nganh, :ma_sinh_vien, :ngay_sinh, :ten, :trang_thai, :ten_nganh
@@ -76,7 +76,7 @@ namespace :qtm do
       ls = ls[:sinh_vien_dang_hoc]
       puts "loading ... sinh viens"
       ls.each do |l|
-        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]) ).first
+        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase)).first
         unless sv
           tmp = titleize(l[:hodem].strip.downcase).split(" ")
           ho = tmp[0]
@@ -109,20 +109,20 @@ namespace :qtm do
         end
       end
     end
-  end 
+  end
   task load_giang_vien: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
     #GiangVien.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('giang_viens') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('giang_viens')
       @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-      response = @client.call(:danh_sach_can_bo_giang_vien)         
-      res_hash = response.body.to_hash                
+      response = @client.call(:danh_sach_can_bo_giang_vien)
+      res_hash = response.body.to_hash
       ls = res_hash[:danh_sach_can_bo_giang_vien_response][:danh_sach_can_bo_giang_vien_result][:diffgram][:document_element]
       ls = ls[:danh_sach_can_bo_giang_vien]
       puts "loading... giang_vien"
-      ls.each_with_index do |l,i|     
-        tmp = titleize(l[:ho_dem].strip.downcase).split(" ")          
+      ls.each_with_index do |l,i|
+        tmp = titleize(l[:ho_dem].strip.downcase).split(" ")
         ho = tmp[0]
         dem = tmp[1..-1].join(" ")
         ten = l[:ten].strip
@@ -137,27 +137,27 @@ namespace :qtm do
       end
     end
   end
-  
+
   #3
   task load_lop_mon_hoc: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
 		#LopMonHoc.delete_all
-		#ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
+		#ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs')
 		@client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-		response = @client.call(:tkb_theo_giai_doan)         
-		res_hash = response.body.to_hash                
+		response = @client.call(:tkb_theo_giai_doan)
+		res_hash = response.body.to_hash
 		ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
 		ls = ls[:tkb_theo_giai_doan]
 		puts "loading... lop mon hoc"
-		ls.each_with_index do |l,i|       
+		ls.each_with_index do |l,i|
 			#Add lop_mon_hoc
-			lop = LopMonHoc.where(:ma_lop => l[:ma_lop].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
-			
+			lop = LopMonHoc.where(:ma_lop => l[:ma_lop].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!
+
 			#Add calendar and assistant
 			#puts l.inspect
 			gv = GiangVien.where(code: l[:ma_giao_vien].strip.upcase).first
-			if lop.id 
+			if lop.id
         puts l.inspect
 				calendar = lop.calendars.where(:so_tiet => l[:so_tiet], :so_tuan => l[:so_tuan_hoc], :thu => l[:thu], :tiet_bat_dau => l[:tiet_bat_dau], :tuan_hoc_bat_dau => l[:tuan_hoc_bat_dau], :giang_vien_id => gv.id).first_or_create!
 				calendar.update_attributes(phong: (l[:ma_phong_hoc].strip if l.has_key?(:ma_phong_hoc) and l[:ma_phong_hoc].is_a?(String)))
@@ -167,26 +167,26 @@ namespace :qtm do
 
 	end
   end
-  
+
   #31 load lop phan cong va lop mon hoc
   task load_sinh_vien_lop_mon_hoc: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
       #LopMonHoc.delete_all
-      #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
+      #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs')
       @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-      response = @client.call(:phan_mon_cua_sinh_vien_theo_ky_hien_tai)         
-      res_hash = response.body.to_hash                
+      response = @client.call(:phan_mon_cua_sinh_vien_theo_ky_hien_tai)
+      res_hash = response.body.to_hash
       ls = res_hash[:phan_mon_cua_sinh_vien_theo_ky_hien_tai_response][:phan_mon_cua_sinh_vien_theo_ky_hien_tai_result][:diffgram][:document_element]
       ls = ls[:phan_mon_cua_sinh_vien_theo_ky_hien_tai]
       puts "loading... lop mon hoc"
-      ls.each_with_index do |l,i|       
-        #lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
+      ls.each_with_index do |l,i|
+        #lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!
 	    lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create
-        if lop		
+        if lop
 		  mon = MonHoc.where(:ma_mon_hoc => l[:ma_mon_hoc].strip.upcase).first_or_create!
 	        mon.ten_mon_hoc = titleize(l[:ten_mon_hoc].strip.downcase)
-	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]), :khoa => 'Khóa 20' ).first      
+	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]), :khoa => 'Khóa 20' ).first
 	        if sv
             puts l.inspect
 	          lmhsv = lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
@@ -200,18 +200,18 @@ namespace :qtm do
   #4 Them thoi khoa bieu va giang vien chinh
   task load_calendar: :environment do
     tenant = Tenant.last
-    Octopus.using(tenant.database) do 
+    Octopus.using(tenant.database) do
     #LichTrinhGiangDay.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('lich_trinh_giang_days') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('lich_trinh_giang_days')
     #Calendar.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('calendars') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('calendars')
       @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-      response = @client.call(:tkb_theo_giai_doan)         
-      res_hash = response.body.to_hash                
+      response = @client.call(:tkb_theo_giai_doan)
+      res_hash = response.body.to_hash
       ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
       ls = ls[:tkb_theo_giai_doan]
-      
-      ls.each_with_index do |l,i| 
+
+      ls.each_with_index do |l,i|
         puts l.inspect
         gv = GiangVien.where(code: l[:ma_giao_vien].strip.upcase).first
         lop = LopMonHoc.where(ma_lop: l[:ma_lop].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
@@ -223,10 +223,10 @@ namespace :qtm do
       end
     end
   end
-  # 5: start lop  
+  # 5: start lop
   task :start_lop => :environment do
     tenant = Tenant.last
-    # Octopus.using(tenant.database) do  
+    # Octopus.using(tenant.database) do
       LopMonHoc.all.each do |lop|
         if lop.id > 1
 			lop.start! unless lop.started?
@@ -234,15 +234,15 @@ namespace :qtm do
 		#end
       end
     end
-  end  
-  
+  end
+
   def titleize(str)
     return "" unless str
     str.split(" ").map(&:capitalize).join(" ").gsub("Ii","II")
   end
-  def convert(str)     
-    return "" unless str 
-    return str.chars.map {|w| cv(w)}.join 
+  def convert(str)
+    return "" unless str
+    return str.chars.map {|w| cv(w)}.join
   end
   def cv(word)
     case word
@@ -515,7 +515,7 @@ namespace :qtm do
     when 'ỵ'
       return 'yz5'
     else
-      return word.downcase    
+      return word.downcase
     end
   end
 

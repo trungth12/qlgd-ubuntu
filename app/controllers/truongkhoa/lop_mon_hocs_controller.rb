@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Truongkhoa::LopMonHocsController < ApplicationController	
+class Truongkhoa::LopMonHocsController < ApplicationController
 	def show
 		@lop = LopMonHoc.find(params[:lop_id])
 		@result = Truongkhoa::LopMonHocSerializer.new(@lop)
@@ -12,19 +12,19 @@ class Truongkhoa::LopMonHocsController < ApplicationController
 			.where('thoi_gian < ?', Time.now)
 			.order('tuan, thoi_gian')
 			.map {|lich| Truongkhoa::LichTrinhGiangDaysSerializer.new(lich)}.group_by {|l| l.tuan}
-			.map {|k,v| 
+			.map {|k,v|
 				{:tuan => k, :noi_dung => v.inject("") {|res, elem| res + (elem.noi_dung || "") + "<br/>"}, :so_tiet => v.inject(0) {|res, elem| res + elem.so_tiet}, :thoi_gian => v.inject("") {|res, elem| res + elem.thoi_gian.localtime.strftime("%H:%M %d/%m/%Y") + "(" + elem.type_abbr + ")<br/>"}
-				}		
+				}
 			}
 		render json: @lichs, :root => false
 	end
 	def tinhhinh
 		@lop = LopMonHoc.find(params[:lop_id])
-		x = (1..16)
+		x = (1..22)
 		if Tenant.last.hoc_ky == '2'
 			x = (23..41)
 		end
-		headers = x.inject([]){|res, elem| res << {tuan: "T#{elem}"} }		
+		headers = x.inject([]){|res, elem| res << {tuan: "T#{elem}"} }
 		str1 = ""
 		x.each do |t|
 			str1 += ",sum(case when tuan=#{t} then stv else 0 end) as \"T#{t}\""
@@ -47,7 +47,7 @@ SELECT regexp_replace(sv.ho || ' ' || sv.dem || ' ' || sv.ten, '  ',' ') as hova
   order by lt.tuan) at
   group by tuan, lop_mon_hoc_id, enrollment_id, encoded_position, hovaten, code, ma_lop_hanh_chinh
   order by tuan) at2
-  group by enrollment_id, encoded_position, hovaten, code, ma_lop_hanh_chinh  
+  group by enrollment_id, encoded_position, hovaten, code, ma_lop_hanh_chinh
 union all
   select regexp_replace(sv.ho || ' ' || sv.dem || ' ' || sv.ten, '  ',' ') as hovaten, sv.code, sv.ma_lop_hanh_chinh, en.id as enrollment_id, sv.encoded_position #{str2}
   from enrollments en
@@ -57,10 +57,10 @@ order by encoded_position"
 		@results = ActiveRecord::Base.connection.execute(sql)
 		@results = @results.map do |item|
 			tmp = []
-			item.each do |k,v|				
+			item.each do |k,v|
 				if k =~ /T/
 					tmp << v
-				end				
+				end
 			end
 			item[:data] = tmp
 			item
