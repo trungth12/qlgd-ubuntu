@@ -1,39 +1,39 @@
 #encoding: utf-8
-class LopMonHoc < ActiveRecord::Base  
+class LopMonHoc < ActiveRecord::Base
   serialize :settings
 #  attr_accessible :ma_lop, :ma_mon_hoc, :ten_mon_hoc, :settings, :duyet_thong_so, :duyet_lich_trinh, :duyet_tinh_hinh
 
 
   validates :ma_lop, :ma_mon_hoc, :ten_mon_hoc, :presence => true
-  
+
   has_many :calendars, :dependent => :destroy
   has_many :lich_trinh_giang_days, :dependent => :destroy
   has_many :giang_viens, -> {uniq}, :through => :calendars
-  has_many :enrollments, :dependent => :destroy  
+  has_many :enrollments, :dependent => :destroy
   #has_many :assignment_groups, :dependent => :destroy, :order => 'position'
-  has_many :assignment_groups, -> { order 'assignment_groups.position asc' }, :dependent => :destroy 
+  has_many :assignment_groups, -> { order 'assignment_groups.position asc' }, :dependent => :destroy
   has_many :assignments
   has_many :submissions, :through => :assignments
   has_many :assistants, :dependent => :destroy
   has_many :giang_viens, -> {uniq}, :through => :assistants
-  has_many :users, -> {uniq}, :through => :assistants 
+  has_many :users, -> {uniq}, :through => :assistants
 
-  scope :normal, -> { where(state: ["pending","started","completed"])} 
+  scope :normal, -> { where(state: ["pending","started","completed"])}
   scope :pending_or_started, -> { where(state: ["pending","started"]) }
   scope :started, -> { where(state: "started")}
   scope :select_all, -> {select('id, ma_lop, ma_mon_hoc, ten_mon_hoc, state')}
   FACETS = [:ma_lop, :ten_mon_hoc, :hoc_ky, :nam_hoc]
   searchable do
-    text :ma_lop, :boost => 5.0
+    text :ma_lop
     text :ten_mon_hoc, :de_cuong_chi_tiet
     text :lich_trinh_giang_days do
       lich_trinh_giang_days.map { |lich| lich.noi_dung }
-    end    
-    text :giang_viens do 
+    end
+    text :giang_viens do
       giang_viens.map {|gv| gv.hovaten}
     end
     text :assistants do
-      if assistants.count > 0 
+      if assistants.count > 0
         assistants.map {|as| as.giang_vien.hovaten}
       end
     end
@@ -41,43 +41,43 @@ class LopMonHoc < ActiveRecord::Base
       if enrollments.count > 0
         enrollments.map { |enrollment| enrollment.sinh_vien.code + " " + enrollment.sinh_vien.hovaten }
       end
-    end    
-    text :de_cuong_chi_tiet do 
+    end
+    text :de_cuong_chi_tiet do
       settings["de_cuong_chi_tiet"] if settings and settings[:de_cuong_chi_tiet]
-    end    
-    text :lich_trinh_du_kien do 
+    end
+    text :lich_trinh_du_kien do
       settings["lich_trinh_du_kien"] if settings and settings[:lich_trinh_du_kien]
     end
-    text :hoc_ky do 
+    text :hoc_ky do
       Tenant.last.hoc_ky
     end
-    text :nam_hoc do 
+    text :nam_hoc do
       Tenant.last.nam_hoc
     end
     string :tenant
   end
   def tenant
     Tenant.last.id.to_s
-  end  
+  end
 
-  state_machine :state, :initial => :pending do  
+  state_machine :state, :initial => :pending do
     event :start do # da thiet lap thong so
       transition all  => :started
-    end 
-    event :complete do 
+    end
+    event :complete do
       transition :started => :completed # da ket thuc mon
     end
-    event :uncomplete do 
+    event :uncomplete do
       transition :completed => :started
     end
-    event :remove do 
-      transition [:pending, :started] => :removed # 
+    event :remove do
+      transition [:pending, :started] => :removed #
     end
-    event :restore do 
+    event :restore do
       transition :removed => :pending
     end
   end
-  
+
   def start
     #self.generate_calendars
     self.settings ||= {}
@@ -89,10 +89,10 @@ class LopMonHoc < ActiveRecord::Base
     self.settings[:lich_trinh_du_kien] ||= ""
     self.settings[:de_cuong_chi_tiet] ||= ""
     self.settings[:language] ||= "vietnamese"
-    self.generate_assignments    
+    self.generate_assignments
     super
   end
-  
+
   def remove
     self.calendars.each do |calendar|
       calendar.remove! if calendar.can_remove?
@@ -112,23 +112,23 @@ class LopMonHoc < ActiveRecord::Base
   end
 
   def generate_calendars
-    if calendars.count > 0 
+    if calendars.count > 0
       calendars.each do |calendar|
         calendar.generate! if calendar.can_generate?
       end
     end
   end
-  
+
   def khoi_luong_du_kien
     lich_trinh_giang_days.accepted_or_completed.sum(:so_tiet)
   end
-  
+
   def tong_so_tiet
     return 0 unless self.settings
     return (self.settings[:so_tiet_ly_thuyet] || 0) + (self.settings[:so_tiet_thuc_hanh] || 0) + (self.settings[:so_tiet_tu_hoc] || 0) + (self.settings[:so_tiet_bai_tap] || 0)
   end
 
-  
+
 
   def tong_so_tiet_hoc
     return 0 unless self.settings
@@ -141,11 +141,11 @@ class LopMonHoc < ActiveRecord::Base
   def teachers
     self.giang_viens.inject("") {|res, elem| res + "  " + elem.hovaten}
   end
-  
+
   def generate_assignments
 #    return nil unless self.started?
     return nil unless self.settings.present?
-    return nil if self.settings.present? and self.settings[:generated] == true    
+    return nil if self.settings.present? and self.settings[:generated] == true
     ag1 = self.assignment_groups.create(name: "Điểm chuyên cần", weight: 40)
     ag1.move_to_bottom
     as1 = self.assignments.create(name: "Điểm chuyên cần", points: 10, assignment_group_id: ag1.id)
@@ -162,9 +162,9 @@ class LopMonHoc < ActiveRecord::Base
     as32.move_to_bottom
     as33 = self.assignments.create(name: "KT lần 3", points: 10, assignment_group_id: ag3.id)
     as33.move_to_bottom
-    self.settings[:generated] = true    
+    self.settings[:generated] = true
     self.save!
   end
 
-  
+
 end
