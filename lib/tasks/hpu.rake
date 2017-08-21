@@ -1,7 +1,7 @@
 #encoding: utf-8
 require 'hpu'
-namespace :hpu do    
-  task find_index: :environment do 
+namespace :hpu do
+  task find_index: :environment do
     Apartment::Database.switch('t2')
     c = ActiveRecord::Base.connection
       c.tables.collect do |t|
@@ -13,7 +13,7 @@ namespace :hpu do
       end
     end
   end
-  task sort_sv:  :environment do 
+  task sort_sv:  :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -25,23 +25,23 @@ namespace :hpu do
     while index < sv.ten.length
       if ss.index(sv.ten[index]).nil? or ss2.index(sv.ten[index]).nil?
         puts sv.ten[index]
-      else 
+      else
         puts "A#{index}"
       end
       index += 1
     end
   end
   #1
-  task load_tuan: :environment do 
+  task load_tuan: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     Tuan.delete_all
-    ActiveRecord::Base.connection.reset_pk_sequence!('tuans') 
+    ActiveRecord::Base.connection.reset_pk_sequence!('tuans')
     d = Date.new(2016,8,15)
     (0..20).each do |t|
         Tuan.where(:stt => t+23, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
-    end 
+    end
   end
   #2
   task load_giang_vien: :environment do
@@ -49,15 +49,15 @@ namespace :hpu do
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     #GiangVien.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('giang_viens') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('giang_viens')
   	@client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-    response = @client.call(:danh_sach_can_bo_giang_vien)         
-    res_hash = response.body.to_hash                
+    response = @client.call(:danh_sach_can_bo_giang_vien)
+    res_hash = response.body.to_hash
     ls = res_hash[:danh_sach_can_bo_giang_vien_response][:danh_sach_can_bo_giang_vien_result][:diffgram][:document_element]
     ls = ls[:danh_sach_can_bo_giang_vien]
     puts "loading... giang_vien"
-    ls.each_with_index do |l,i|     
-      tmp = titleize(l[:ho_dem].strip.downcase).split(" ")          
+    ls.each_with_index do |l,i|
+      tmp = titleize(l[:ho_dem].strip.downcase).split(" ")
       ho = tmp[0]
       dem = tmp[1..-1].join(" ")
       ten = l[:ten].strip
@@ -77,15 +77,15 @@ namespace :hpu do
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     #LopMonHoc.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs')
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-    response = @client.call(:tkb_theo_giai_doan)         
-    res_hash = response.body.to_hash                
+    response = @client.call(:tkb_theo_giai_doan)
+    res_hash = response.body.to_hash
     ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
     ls = ls[:tkb_theo_giai_doan]
     puts "loading... lop mon hoc"
-    ls.each_with_index do |l,i|       
-      lop = LopMonHoc.where(:ma_lop => l[:ma_lop].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
+    ls.each_with_index do |l,i|
+      lop = LopMonHoc.where(:ma_lop => l[:ma_lop].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!
       #lop.start!
     end
   end
@@ -95,18 +95,18 @@ namespace :hpu do
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     #LopMonHoc.delete_all
-    #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs') 
+    #ActiveRecord::Base.connection.reset_pk_sequence!('lop_mon_hocs')
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-    response = @client.call(:phan_mon_cua_sinh_vien_theo_ky_hien_tai)         
-    res_hash = response.body.to_hash                
+    response = @client.call(:phan_mon_cua_sinh_vien_theo_ky_hien_tai)
+    res_hash = response.body.to_hash
     ls = res_hash[:phan_mon_cua_sinh_vien_theo_ky_hien_tai_response][:phan_mon_cua_sinh_vien_theo_ky_hien_tai_result][:diffgram][:document_element]
     ls = ls[:phan_mon_cua_sinh_vien_theo_ky_hien_tai]
     puts "loading... lop mon hoc"
-    ls.each_with_index do |l,i|       
-      lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!      
+    ls.each_with_index do |l,i|
+      lop = LopMonHoc.where(:ma_lop => l[:ma_lop_mon_hoc].strip.upcase, :ma_mon_hoc => l[:ma_mon_hoc].strip.upcase, :ten_mon_hoc => titleize(l[:ten_mon_hoc].strip.downcase) ).first_or_create!
       mon = MonHoc.where(:ma_mon_hoc => l[:ma_mon_hoc].strip.upcase).first_or_create!
       mon.ten_mon_hoc = titleize(l[:ten_mon_hoc].strip.downcase)
-      sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]) ).first      
+      sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]) ).first
       if sv
         lmhsv = lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
       else
@@ -121,16 +121,16 @@ namespace :hpu do
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     LichTrinhGiangDay.delete_all
-    ActiveRecord::Base.connection.reset_pk_sequence!('lich_trinh_giang_days') 
+    ActiveRecord::Base.connection.reset_pk_sequence!('lich_trinh_giang_days')
     Calendar.delete_all
-    ActiveRecord::Base.connection.reset_pk_sequence!('calendars') 
+    ActiveRecord::Base.connection.reset_pk_sequence!('calendars')
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
-    response = @client.call(:tkb_theo_giai_doan)         
-    res_hash = response.body.to_hash                
+    response = @client.call(:tkb_theo_giai_doan)
+    res_hash = response.body.to_hash
     ls = res_hash[:tkb_theo_giai_doan_response][:tkb_theo_giai_doan_result][:diffgram][:document_element]
     ls = ls[:tkb_theo_giai_doan]
-    
-    ls.each_with_index do |l,i| 
+
+    ls.each_with_index do |l,i|
       puts l.inspect
       gv = GiangVien.where(code: l[:ma_giao_vien].strip.upcase).first
       lop = LopMonHoc.where(ma_lop: l[:ma_lop].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
@@ -143,7 +143,7 @@ namespace :hpu do
   task :load_sinh_vien => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)    
+    Apartment::Database.switch(tenant.name)
     #SinhVien.delete_all
     #ActiveRecord::Base.connection.reset_pk_sequence!('sinh_viens')
     # attr_accessible :gioi_tinh, :ho_dem, :lop_hc, :ma_he_dao_tao, :ma_khoa_hoc, :ma_nganh, :ma_sinh_vien, :ngay_sinh, :ten, :trang_thai, :ten_nganh
@@ -185,65 +185,65 @@ namespace :hpu do
         end
       end
     end
-  end 
+  end
   # 6
   task :load_lopsv => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)    
+    Apartment::Database.switch(tenant.name)
    # Enrollment.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('enrollments')
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_mon_hoc_sinh_vien_hk)
     res_hash = response.body.to_hash
     ls = res_hash[:lop_mon_hoc_sinh_vien_hk_response][:lop_mon_hoc_sinh_vien_hk_result][:diffgram][:document_element]
-    ls = ls[:lop_mon_hoc_sinh_vien_hk]    
-    ls.each do |l|         
+    ls = ls[:lop_mon_hoc_sinh_vien_hk]
+    ls.each do |l|
       lop = LopMonHoc.where(ma_lop: l[:malop].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
       sv = SinhVien.where(code: l[:ma_sinh_vien].strip.upcase).first
       if lop and sv
         lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
       end
-    end                
+    end
   end
   # 7
   task :load_lopghep => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)        
+    Apartment::Database.switch(tenant.name)
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_ghep_hoc_ky)
     res_hash = response.body.to_hash
     ls = res_hash[:lop_ghep_hoc_ky_response][:lop_ghep_hoc_ky_result][:diffgram][:document_element]
 
 
-    ls = ls[:lop_ghep_hoc_ky]    
-    ls.each do |l|         
+    ls = ls[:lop_ghep_hoc_ky]
+    ls.each do |l|
       lop = LopMonHoc.where(ma_lop: l[:ma_lop_ghep].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first_or_create
      end
-    ls.each do |l|         
+    ls.each do |l|
       lop = LopMonHoc.where(ma_lop: l[:ma_lop_ghep].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
-      sv = SinhVien.where(code: l[:ma_sinh_vien].strip.upcase, :khoa => 'Khóa 20').first
+      sv = SinhVien.where(code: l[:ma_sinh_vien].strip.upcase).first
       if lop and sv
         lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
       end
-    end  
+    end
   end
   # 8
   task :start_lop => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)    
+    Apartment::Database.switch(tenant.name)
     LopMonHoc.all.each do |lop|
       lop.start! unless lop.started?
     end
   end
 
   #9
-  task :sort_sinh_vien => :environment do 
+  task :sort_sinh_vien => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)    
+    Apartment::Database.switch(tenant.name)
     svs = SinhVien.all.sort
     svs.each_with_index do |sv, index|
       sv.insert_at(index+1)
@@ -254,15 +254,15 @@ namespace :hpu do
   task :reindex => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)    
+    Apartment::Database.switch(tenant.name)
     SinhVien.reindex
-    LopMonHoc.reindex    
+    LopMonHoc.reindex
     LichTrinhGiangDay.reindex
     Sunspot.commit
   end
-  
+
   #11: update grade
-  task :update_grade => :environment do 
+  task :update_grade => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -272,7 +272,7 @@ namespace :hpu do
   end
 
   #12 :update tinh hinh vang
-  task :update_tinhhinh => :environment do 
+  task :update_tinhhinh => :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -283,16 +283,16 @@ namespace :hpu do
   end
 
   #13: update assistant
-  task update_assistant: :environment do 
+  task update_assistant: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
     LopMonHoc.all.each do |lop|
       gvs = GiangVien.find(lop.calendars.pluck(:giang_vien_id).uniq)
       gvs.each do |gv|
-        user = gv.user        
+        user = gv.user
         as = lop.assistants.where(giang_vien_id: gv.id).first_or_create!
-        if user 
+        if user
           as.user = user
           as.save!
         end
@@ -302,7 +302,7 @@ namespace :hpu do
   end
 
   #14: update phong
-  task update_phong: :environment do 
+  task update_phong: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -310,14 +310,14 @@ namespace :hpu do
     response = @client.call(:phong_hoc)
     res_hash = response.body.to_hash
     ls = res_hash[:phong_hoc_response][:phong_hoc_result][:diffgram][:document_element]
-    ls = ls[:phong_hoc]    
-    ls.each do |l|        
+    ls = ls[:phong_hoc]
+    ls.each do |l|
       Phong.create(ma_phong: l[:ma_phong_hoc].strip, toa_nha: l[:ma_toa_nha].strip, tang: l[:chi_so_tang].to_i, suc_chua_toi_da: l[:so_ban].to_i * l[:he_so_hoc].to_i, loai: l[:kieu_phong])
     end
   end
 
   #15: Danh muc mon hoc
-  task update_mon_hoc: :environment do 
+  task update_mon_hoc: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -325,21 +325,21 @@ namespace :hpu do
     response = @client.call(:danh_muc_mon_hoc)
     res_hash = response.body.to_hash
     ls = res_hash[:danh_muc_mon_hoc_response][:danh_muc_mon_hoc_result][:diffgram][:document_element]
-    ls = ls[:danh_muc_mon_hoc]    
-    ls.each do |l|        
+    ls = ls[:danh_muc_mon_hoc]
+    ls.each do |l|
       MonHoc.where(ma_mon_hoc: l[:ma_mon_hoc].strip.upcase, ten_mon_hoc: l[:ten_mon_hoc].strip).first_or_create!
     end
   end
-  
+
   #16: Generate sitemap
-  task generate_sitemap: :environment do 
+  task generate_sitemap: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
-    
+
   end
   #17: Update so tiet vang
-  task update_tong_vang: :environment do 
+  task update_tong_vang: :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -348,7 +348,7 @@ namespace :hpu do
     end
   end
   #18: Update encoded_position
-  task update_encoded_position:  :environment do 
+  task update_encoded_position:  :environment do
     Apartment::Database.switch('public')
     tenant = Tenant.last
     Apartment::Database.switch(tenant.name)
@@ -359,13 +359,13 @@ namespace :hpu do
 
 
   #19: Xep lich truc nhat
-  
-  
+
+
   def titleize(str)
     str.split(" ").map(&:capitalize).join(" ").gsub("Ii","II")
   end
-  def convert(str)      
-    return str.chars.map {|w| cv(w)}.join 
+  def convert(str)
+    return str.chars.map {|w| cv(w)}.join
   end
   def cv(word)
     case word
@@ -638,7 +638,7 @@ namespace :hpu do
     when 'ỵ'
       return 'yz5'
     else
-      return word.downcase    
+      return word.downcase
     end
   end
 end

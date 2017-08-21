@@ -1,8 +1,6 @@
 #!/bin/bash
 
-source ~/.rvm/scripts/rvm
-
-cd /home/tuyendv/qlgd-test/
+cd /home/su207/qlgd-ubuntu/
 
 RAILS_ENV=production bundle exec rake sunspot:solr:run 
-##& echo $! >>/home/tuyendv/qlgd-test/start_sunspot_qlgd.pid
+##& echo $! >>/home/su207/qlgd-ubuntu/start_sunspot_qlgd.pid

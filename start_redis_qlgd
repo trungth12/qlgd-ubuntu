@@ -1,8 +1,5 @@
 #!/bin/bash
-
-source ~/.rvm/scripts/rvm
-
-cd /home/tuyendv/qlgd-test/config
+cd /home/su207/qlgd-ubuntu/
 
 redis-server redis6481.conf 
-##& echo $! >>/home/tuyendv/qlgd-test/start_redis_qlgd.pid
+##& echo $! >>/home/su207/qlgd-ubuntu/start_redis_qlgd.pid
