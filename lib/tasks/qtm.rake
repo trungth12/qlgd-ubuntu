@@ -76,7 +76,7 @@ namespace :qtm do
       ls = ls[:sinh_vien_dang_hoc]
       puts "loading ... sinh viens"
       ls.each do |l|
-        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase)).first
+        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien])).first
         unless sv
           tmp = titleize(l[:hodem].strip.downcase).split(" ")
           ho = tmp[0]
@@ -228,7 +228,7 @@ namespace :qtm do
     tenant = Tenant.last
     # Octopus.using(tenant.database) do
       LopMonHoc.all.each do |lop|
-        if lop.id > 1
+        if lop.id > 902
 			lop.start! unless lop.started?
 			lop.generate_calendars
 		#end

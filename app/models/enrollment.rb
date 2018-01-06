@@ -14,7 +14,7 @@ class Enrollment < ActiveRecord::Base
   has_many :submissions, :dependent => :destroy
   before_destroy :delete_attendances
 
-  def tong_vang  
+  def tong_vang
     attendances.where(lich_trinh_giang_day_id: lich_trinh_giang_days.not_tuhoc.map(&:id)).not_idle.where('phep is NULL or phep=false').sum(:so_tiet_vang).to_i
   end
   def so_tiet_thua
@@ -42,10 +42,10 @@ class Enrollment < ActiveRecord::Base
       2.5
     else
       0
-    end     
+    end
   end
  def tinhhinhvang
-    tmp = lop_mon_hoc.khoi_luong_du_kien.to_i
+    tmp = lop_mon_hoc.khoi_luong_du_kien.to_i || 0
 	  tmp = 10000 if tmp == 0
     (((tong_vang || 0) * 100.0) / tmp).to_f.round(2)
   end
