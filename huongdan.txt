@@ -66,10 +66,10 @@ Copy đè conf vào C:\qlgd\solr\ nếu solr đang chạy thì phải tắt đi 
 
 14. Chỉnh tuần bắt đầu trong các file (range(1,22) cho học kỳ 1 hoặc range(23,42) cho học kỳ 2):
 -- Mở file	"E:\qlgd-test_octopus\app\assets\javascripts\daotao\calendar.js.jsx" tìm range(23,42) để sửa đúng với kỳ sẽ khởi tạo, ở dòng 197
-	
+
 Chạy compile.bat (E:\qlgd-test_octopus)
 --sau khi biên dịch xong, code chứa trong thư mục public (E:\qlgd-test_octopus\public\assets), copy sang ngix (E:\nginx-1.2.3\html\qlgd) để chạy website
---chạy website bằng lệnh start ("E:\qlgd-test_octopus\start_qlgd.bat"), bình thường khi lấy dữ liệu thì chạy lại website, nếu khởi động lại server thì ngix tự động chạy	
+--chạy website bằng lệnh start ("E:\qlgd-test_octopus\start_qlgd.bat"), bình thường khi lấy dữ liệu thì chạy lại website, nếu khởi động lại server thì ngix tự động chạy
 * Copy các thư mục trong public vào thư mục html của nginx
 
 * Chạy website bằng tay trước khi lấy dữ liệu:
@@ -87,7 +87,7 @@ bundle exec rake db:migrate
 
 Tạo bản ghi chứa thông tin kết nối database học kỳ hiện tại trong qlgdmaster:
 INSERT INTO tenants(
-	id, hoc_ky, nam_hoc, created_at, 
+	id, hoc_ky, nam_hoc, created_at,
 	updated_at, host, adapter,
 	database, username, password, port)
 VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
@@ -97,7 +97,7 @@ VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
 
 --Chạy 1 lần vào đầu kỳ
 --Tạo ra 1 db mới cho kỳ tiếp theo tên là "qlgd20152016hk2", sau đó tạo các table trong db bằng lệnh bundle exec rake db:migrate
---Cần quyền cao nhất của db, user:postgres pass:hpu qtm qlgd 
+--Cần quyền cao nhất của db, user:postgres pass:hpu qtm qlgd
 
 1. tạo database qlgd20152016hk2 rồi tạo bảng bằng lệnh: (cần thông tin trong db qlgdmaster bảng tenants chính xác để tạo bảng đúng trong db qlgd20152016hk2)
 bundle exec rake db:migrate
@@ -105,11 +105,11 @@ bundle exec rake db:migrate
 --Để cho soft chuyển điểm quá trình từ qlgd sang edu cần thêm các bảng và dữ liệu phục vụ cho hệ thống chuyển điểm
 --create và insert bảng bangquydoidiem từ kỳ cũ sang với quyền user qlgd: (db: qlgd20152016hk2 sử dụng quyền qlgd với password, cần dùng --quyền này để tạo bảng sẽ gắn quyền này cho bảng, nếu dùng admin của postgre thì sẽ bị cấm cái gì đó)
 CREATE TABLE "public"."bangquydoidiem" (
-	"Id" integer NOT NULL PRIMARY KEY, 
-	"LoaiDiem" integer, 
-	"DiemTu" numeric(38, 2), 
-	"DiemDen" numeric(38, 2), 
-	"DiemQuyDoi" integer, 
+	"Id" integer NOT NULL PRIMARY KEY,
+	"LoaiDiem" integer,
+	"DiemTu" numeric(38, 2),
+	"DiemDen" numeric(38, 2),
+	"DiemQuyDoi" integer,
 	"Weight" integer
 );
 
@@ -142,17 +142,17 @@ ALTER TABLE enrollments ADD COLUMN nhatky text;
 Tạo bản ghi chứa thông tin kết nối database học kỳ hiện tại trong qlgd20152016hk2:
 --bảng tenants của db qlgd20152016hk2 chưa có dữ liệu đưa các row giống như mô tả ở trên
 INSERT INTO tenants(
-	id, hoc_ky, nam_hoc, created_at, 
+	id, hoc_ky, nam_hoc, created_at,
 	updated_at, host, adapter,
 	database, username, password, port)
-VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
-	'2016/08/14 00:00:00', 'localhost', 'postgresql',
-	'qlgd20162017hk1', 'qlgd', 'qlgd 1234 9876', '5432');
+VALUES (1, '2', '2017-2018', '2018/01/15 00:00:00',
+	'2018/01/15 00:00:00', 'localhost', 'postgresql',
+	'qlgd', 'postgres', 'qlgd2017', '5432');
 
 
 --Đến đây đã khởi tạo xong db, tiếp theo cần lấy dữ liệu từ Edu sang qlgd
 2. Lấy dữ liệu tuần (tuans):
---Chỉnh "ngày bắt đầu" và "tuần bắt đầu" (t+1 cho hk1 hoặc t+23 cho hk2) trong 10.1.0.236 "E:\qlgd-test_octopus\lib\tasks\qtm.rake", 
+--Chỉnh "ngày bắt đầu" và "tuần bắt đầu" (t+1 cho hk1 hoặc t+23 cho hk2) trong 10.1.0.236 "E:\qlgd-test_octopus\lib\tasks\qtm.rake",
 --nhãn #1 Load tuan
 bundle exec rake qtm:load_tuan
 
@@ -180,7 +180,7 @@ bundle exec rake qtm:load_sinh_vien
 --	thành
 --	ep = convert(ten) + convert(dem)+ convert(ho)+ ns.strftime("%Y%m%d")
 --đã sửa code cho ngày sinh chính xác, chỉ cần chạy câu lệnh load_sinh_vien
-	
+
 6. Lấy danh sách giảng viên (giang_viens):
 bundle exec rake qtm:load_giang_vien
 
