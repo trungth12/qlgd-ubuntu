@@ -2,5 +2,7 @@
 
 cd /home/su207/qlgd-ubuntu
 
+rm /home/su207/qlgd-ubuntu/tmp/pids/server.pid
+
 RAILS_ENV=production bundle exec rails s -p 8080 
 ##& echo $! >>/home/su207/qlgd-ubuntu/start_rails_qlgd.pid
