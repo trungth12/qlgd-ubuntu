@@ -14,11 +14,11 @@ class Calendar < ActiveRecord::Base
   validates :giang_vien, :presence => true
   validates :so_tiet, :so_tuan, :thu, :tiet_bat_dau, :tuan_hoc_bat_dau, numericality: {only_integer: true, greater_than: 0}
 
-  TIET = {1 => [6,30], 2 => [7,20], 3 => [8,10],
-          4 => [9,5], 5 => [9,55], 6 => [10, 45],
-          7 => [12,30], 8 => [13,20], 9 => [14,10],
-          10 => [15, 5], 11 => [15, 55], 12 => [16, 45],
-          13 => [18, 0], 14 => [18, 50], 15 => [19,40], 16 => [20,30]}
+  TIET = {1 => [7,00], 2 => [7,55], 3 => [8,55],
+          4 => [9,50], 5 => [10,45], 6 => [13,00],
+          7 => [13,55], 8 => [14,55], 9 => [15,50],
+          10 => [16,45], 11 => [17,55], 12 => [18,45],
+          13 => [19, 0], 14 => [20,50], 15 => [21,55]}
   THU2 = {2 => "Thứ 2", 3 => "Thứ 3", 4 => "Thứ 4", 5 => "Thứ 5", 6 => "Thứ 6", 7 => "Thứ 7", 8 => "Chủ nhật"}
   THU = {2 => :monday, 3 => :tuesday, 4 => :wednesday, 5 => :thursday, 6 => :friday, 7 => :saturday, 8 => :sunday}
 

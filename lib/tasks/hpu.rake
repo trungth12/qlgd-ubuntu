@@ -38,9 +38,9 @@ namespace :hpu do
     Apartment::Database.switch(tenant.name)
     Tuan.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!('tuans')
-    d = Date.new(2016,8,15)
+    d = Date.new(2018,8,13)
     (0..20).each do |t|
-        Tuan.where(:stt => t+23, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
+        Tuan.where(:stt => t+1, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
     end
   end
   #2
@@ -208,9 +208,9 @@ namespace :hpu do
   end
   # 7
   task :load_lopghep => :environment do
-    Apartment::Database.switch('public')
+    #Apartment::Database.switch('public')
     tenant = Tenant.last
-    Apartment::Database.switch(tenant.name)
+    #Apartment::Database.switch(tenant.name)
     @client = Savon.client(wsdl: "http://10.1.0.236:8088/HPUWebService.asmx?wsdl")
     response = @client.call(:lop_ghep_hoc_ky)
     res_hash = response.body.to_hash

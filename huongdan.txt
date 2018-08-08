@@ -90,9 +90,9 @@ INSERT INTO tenants(
 	id, hoc_ky, nam_hoc, created_at,
 	updated_at, host, adapter,
 	database, username, password, port)
-VALUES (1, '1', '2016-2017', '2016/08/14 00:00:00',
-	'2016/08/14 00:00:00', 'localhost', 'postgresql',
-	'qlgd20162017hk1', 'qlgd', 'qlgd 1234 9876', '5432');
+VALUES (1, '1', '2018-2019', '2018/08/13 00:00:00',
+	'2018/08/13 00:00:00', 'localhost', 'postgresql',
+	'qlgd', 'qlgd', 'qlgd 1234 9876', '5432');
 
 
 --Chạy 1 lần vào đầu kỳ
