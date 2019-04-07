@@ -172,20 +172,20 @@ var Bosung = React.createClass({
 								</td>
 								<td>
 									<select ref="tiet_bat_dau" class="form-control input-sm">
-										<option value="1">1 (6h30)</option>
-										<option value="2">2 (7h20)</option>
-										<option value="3">3 (8h10)</option>
-										<option value="4">4 (9h05)</option>
-										<option value="5">5 (9h55)</option>
-										<option value="6">6 (10h45)</option>
-										<option value="7">7 (12h30)</option>
-										<option value="8">8 (13h20)</option>
-										<option value="9">9 (14h10)</option>
-										<option value="10">10 (15h05)</option>
-										<option value="11">11 (15h55)</option>
-										<option value="12">12 (16h45)</option>
-										<option value="13">13 (18h00)</option>
-										<option value="14">14 (18h50)</option>
+										<option value="1">1 (7h00)</option>
+										<option value="2">2 (7h55)</option>
+										<option value="3">3 (8h55)</option>
+										<option value="4">4 (9h50)</option>
+										<option value="5">5 (10h45)</option>
+										<option value="6">6 (13h00)</option>
+										<option value="7">7 (13h55)</option>
+										<option value="8">8 (14h50)</option>
+										<option value="9">9 (15h45)</option>
+										<option value="10">10 (16h50)</option>
+										<option value="11">11 (17h55)</option>
+										<option value="12">12 (18h45)</option>
+										<option value="13">13 (19h00)</option>
+										<option value="14">14 (20h50)</option>
 										<option value="15">15 (19h40)</option>
 										<option value="16">16 (20h30)</option>
 									</select>
@@ -318,20 +318,20 @@ var Row2 = React.createClass({
 					</td>
 					<td>
 						<select ref="tiet_bat_dau" class="form-control input-sm">
-							<option value="1">1 (6h30)</option>
-							<option value="2">2 (7h20)</option>
-							<option value="3">3 (8h10)</option>
-							<option value="4">4 (9h05)</option>
-							<option value="5">5 (9h55)</option>
-							<option value="6">6 (10h45)</option>
-							<option value="7">7 (12h30)</option>
-							<option value="8">8 (13h20)</option>
-							<option value="9">9 (14h10)</option>
-							<option value="10">10 (15h05)</option>
-							<option value="11">11 (15h55)</option>
-							<option value="12">12 (16h45)</option>
-							<option value="13">13 (18h00)</option>
-							<option value="14">14 (18h50)</option>
+							<option value="1">1 (7h00)</option>
+							<option value="2">2 (7h55)</option>
+							<option value="3">3 (8h55)</option>
+							<option value="4">4 (9h50)</option>
+							<option value="5">5 (10h45)</option>
+							<option value="6">6 (13h00)</option>
+							<option value="7">7 (13h55)</option>
+							<option value="8">8 (14h50)</option>
+							<option value="9">9 (15h45)</option>
+							<option value="10">10 (16h50)</option>
+							<option value="11">11 (17h55)</option>
+							<option value="12">12 (18h45)</option>
+							<option value="13">13 (19h00)</option>
+							<option value="14">14 (20h50)</option>
 							<option value="15">15 (19h40)</option>
 							<option value="16">16 (20h30)</option>
 						</select>
