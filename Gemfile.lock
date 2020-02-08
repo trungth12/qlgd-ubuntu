@@ -206,7 +206,7 @@ GEM
     minitest (5.11.3)
     multipart-post (2.0.0)
     nenv (0.3.0)
-    nokogiri (1.10.2)
+    nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
     nori (2.6.0)
     notiffany (0.1.1)
