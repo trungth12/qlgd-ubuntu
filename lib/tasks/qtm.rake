@@ -1,4 +1,4 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 require 'hpu'
 namespace :qtm do
   #10
@@ -26,9 +26,9 @@ namespace :qtm do
     Octopus.using(tenant.database) do
       Tuan.delete_all
       ActiveRecord::Base.connection.reset_pk_sequence!('tuans')
-      d = Date.new(2019,8,19)
+      d = Date.new(2020,2,3)
       (0..21).each do |t|
-          Tuan.where(:stt => t+1, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
+          Tuan.where(:stt => t+25, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
       end
     end
   end
@@ -186,7 +186,7 @@ namespace :qtm do
         if lop
 		  mon = MonHoc.where(:ma_mon_hoc => l[:ma_mon_hoc].strip.upcase).first_or_create!
 	        mon.ten_mon_hoc = titleize(l[:ten_mon_hoc].strip.downcase)
-	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien]), :khoa => 'Khóa 20' ).first
+	        sv = SinhVien.where(code: (l[:ma_sinh_vien].strip.upcase if l[:ma_sinh_vien])).first
 	        if sv
             puts l.inspect
 	          lmhsv = lop.enrollments.where(sinh_vien_id: sv.id).first_or_create!
@@ -215,7 +215,7 @@ namespace :qtm do
         puts l.inspect
         gv = GiangVien.where(code: l[:ma_giao_vien].strip.upcase).first
         lop = LopMonHoc.where(ma_lop: l[:ma_lop].strip.upcase, ma_mon_hoc: l[:ma_mon_hoc].strip.upcase).first
-        if lop # and lop.id > 606
+        if lop and lop.id 
           calendar = lop.calendars.where(:so_tiet => l[:so_tiet], :so_tuan => l[:so_tuan_hoc], :thu => l[:thu], :tiet_bat_dau => l[:tiet_bat_dau], :tuan_hoc_bat_dau => l[:tuan_hoc_bat_dau], :giang_vien_id => gv.id).first_or_create!
           calendar.update_attributes(phong: (l[:ma_phong_hoc].strip if l.has_key?(:ma_phong_hoc) and l[:ma_phong_hoc].is_a?(String)))
           lop.assistants.where(giang_vien_id: gv.id).first_or_create!
@@ -228,7 +228,7 @@ namespace :qtm do
     tenant = Tenant.last
     # Octopus.using(tenant.database) do
       LopMonHoc.all.each do |lop|
-        if lop.id > 902
+        if lop.id > 1
 			lop.start! unless lop.started?
 			lop.generate_calendars
 		#end
