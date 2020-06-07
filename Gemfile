@@ -50,7 +50,7 @@ gem "better_errors"
 #gem "protected_attributes"
 gem "slim-rails"
 gem "thin"
-gem 'devise', '~> 3.4.0'
+gem 'devise', '~> 4.7.1'
 gem 'devise_cas_authenticatable'
 gem "ice_cube"
 gem 'draper', '1.3.0'
