@@ -154,17 +154,17 @@ VALUES (1, '1', '2018-2019', '2018/08/13 00:00:00',
 2. Lấy dữ liệu tuần (tuans):
 --Chỉnh "ngày bắt đầu" và "tuần bắt đầu" (t+1 cho hk1 hoặc t+23 cho hk2) trong 10.1.0.236 "E:\qlgd-test_octopus\lib\tasks\qtm.rake",
 --nhãn #1 Load tuan
-bundle exec rake qtm:load_tuan
+RAILS_ENV=production bundle exec rake qtm:load_tuan
 
 3. Lấy phòng (phongs):
-bundle exec rake qtm:load_phong
+RAILS_ENV=production bundle exec rake qtm:load_phong
 
 4. Lấy danh sách môn học (mon_hocs):
-bundle exec rake qtm:load_mon_hoc
+RAILS_ENV=production bundle exec rake qtm:load_mon_hoc
 
 5. Lấy danh sách sinh viên (sinh_viens):
 --Trong trường hợp tuyển sinh nhiều ngày, mỗi khi Đào tạo yêu cầu lấy dữ liệu SV, chạy lệnh sau, sẽ chỉ lây thêm SV mới nhập học và cập nhật thông tin SV cũ nếu có thay đổi (đổi lớp)
-bundle exec rake qtm:load_sinh_vien
+RAILS_ENV=production  bundle exec rake qtm:load_sinh_vien
 
 --Chạy SQL để fix ngày sinh
 --UPDATE sinh_viens
@@ -182,13 +182,13 @@ bundle exec rake qtm:load_sinh_vien
 --đã sửa code cho ngày sinh chính xác, chỉ cần chạy câu lệnh load_sinh_vien
 
 6. Lấy danh sách giảng viên (giang_viens):
-bundle exec rake qtm:load_giang_vien
+RAILS_ENV=production bundle exec rake qtm:load_giang_vien
 
 --7' load_lop_mon_hoc
-bundle exec rake qtm:load_lop_mon_hoc
+RAILS_ENV=production bundle exec rake qtm:load_lop_mon_hoc
 
 7. Lấy danh sách lớp môn học sinh viên:
-bundle exec rake qtm:load_sinh_vien_lop_mon_hoc
+RAILS_ENV=production  bundle exec rake qtm:load_sinh_vien_lop_mon_hoc
 
 
 --Bỏ qua 8 vì Đã sửa task gộp vào load_lop_mon_hoc -> bỏ qua lệnh này
@@ -196,7 +196,7 @@ bundle exec rake qtm:load_sinh_vien_lop_mon_hoc
 --bundle exec rake qtm:load_calendar
 
 9. Tạo lịch trình giảng dạy, cấu hình lớp học:
-bundle exec rake qtm:start_lop
+RAILS_ENV=production  bundle exec rake qtm:start_lop
 
 --Từ 10 trở đi là thêm các group(quản trị, thanh tra, đào tạo) vào qlgd. chạy lệnh SQL
 10.
