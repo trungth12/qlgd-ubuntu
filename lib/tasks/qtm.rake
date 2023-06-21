@@ -26,9 +26,9 @@ namespace :qtm do
     Octopus.using(tenant.database) do
       Tuan.delete_all
       ActiveRecord::Base.connection.reset_pk_sequence!('tuans')
-      d = Date.new(2021,01,25)
-      (0..21).each do |t|
-          Tuan.where(:stt => t+20, :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
+      d = Date.new(2023,02,06)
+      (0..22).each do |t|
+          Tuan.where(:stt => t+26  , :tu_ngay => d + t.weeks, :den_ngay => d + t.weeks + 6.day).first_or_create!
       end
     end
   end

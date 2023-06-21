@@ -1,6 +1,6 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '4.2.8'
+gem 'rails', '<=4.4'
 gem 'sqlite3', '~> 1.3.11'
 gem 'exception_notification'
 group :assets do
@@ -50,8 +50,8 @@ gem "better_errors"
 #gem "protected_attributes"
 gem "slim-rails"
 gem "thin"
-gem 'devise', '~> 3.4.0'
-gem 'devise_cas_authenticatable'
+gem 'devise', '<=3.4.1'
+gem 'devise_cas_authenticatable', '<=1.10.4'
 gem "ice_cube"
 gem 'draper', '1.3.0'
 gem "pundit"

@@ -90,8 +90,8 @@ INSERT INTO tenants(
 	id, hoc_ky, nam_hoc, created_at,
 	updated_at, host, adapter,
 	database, username, password, port)
-VALUES (1, '1', '2020-2021', '2019/01/02 00:00:00',
-	'2018/01/02 00:00:00', 'localhost', 'postgresql',
+VALUES (1, '1', '2022-2023', '2023/02/06 00:00:00',
+	'2023/02/06 00:00:00', 'localhost', 'postgresql',
 	'qlgd', 'qlgd', 'qlgd2017', '5432');
 
 
@@ -185,7 +185,7 @@ RAILS_ENV=production  bundle exec rake qtm:load_sinh_vien
 RAILS_ENV=production bundle exec rake qtm:load_giang_vien
 
 --7' load_lop_mon_hoc
-RAILS_ENV=production bundle exec rake qtm:load_giang_vien
+RAILS_ENV=production bundle exec rake qtm:load_lop_mon_hoc
 
 7. Lấy danh sách lớp môn học sinh viên:
 RAILS_ENV=production  bundle exec rake qtm:load_sinh_vien_lop_mon_hoc
@@ -225,7 +225,7 @@ INSERT INTO "users" ("id","email","created_at","updated_at","username","imageabl
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (9,'tuanha@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','tuanha@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971025006'),'GiangVien');
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (10,'phinga@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','phinga@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '02080037'),'GiangVien');
 INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (11,'thuongpt@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','thuongpt@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '01030021'),'GiangVien');
-INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (12,'hoangminhhahp@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','honganh@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '1971011002'),'GiangVien');
+INSERT INTO "users" ("id","email","created_at","updated_at","username","imageable_id","imageable_type") VALUES (12,'hoangminhhahp@hpu.edu.vn','2015-01-13 06:59:38','2015-01-13 06:59:38','hoangminhhahp@hpu.edu.vn',(SELECT id FROM giang_viens WHERE code = '02030030'),'GiangVien');
 
 --Đưa user vào group
 INSERT INTO "user_groups" ("id","user_id","group_id","created_at","updated_at") VALUES (1,1,1,'2014/08/08','2014/08/08');
