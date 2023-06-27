@@ -1,0 +1,15 @@
+<% if current_user.present? %>
+
+        <!-- Clerk UserButton -->
+
+        <div id="user-button"></div>
+
+      <% else %>
+
+        <!-- Clerk Sign up and Sign in links -->
+
+        <a href="javascript:void(0)" onclick="Clerk.openSignIn()" data-turbolinks="false">Sign in</a>
+
+        <button onclick="Clerk.openSignUp()">Sign up</button>
+
+      <% end %>

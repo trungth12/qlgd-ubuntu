@@ -249,8 +249,9 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
-   config.cas_base_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "production"
-   config.cas_base_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "test" or ENV['RAILS_ENV'] == "development"
+  config.cas_base_url = "https://api.clerk.dev/v1/" if ENV['RAILS_ENV'] == "production"
+  # config.cas_base_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "production"
+  # config.cas_base_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "test" or ENV['RAILS_ENV'] == "development"
   # config.cas_destination_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "production"
   # you can override these if you need to, but cas_base_url is usually enough
   # config.cas_login_url = "http://login.hpu.edu.vn" if ENV['RAILS_ENV'] == "production"

@@ -1,4 +1,4 @@
-
+require "clerk/authenticatable"
 class ApplicationController < ActionController::Base
   protect_from_forgery  
   include Pundit
@@ -10,6 +10,15 @@ class ApplicationController < ActionController::Base
    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
   end
   
+  include Clerk::Authenticatable
+
+  helper_method :current_user
+
+  def current_user
+
+    @current_user ||= clerk_user
+
+  end
 
   #around_filter :select_shard
 
@@ -30,6 +39,7 @@ class ApplicationController < ActionController::Base
   #     end
   #   end
   # end
+  
 
   def current_tenant
     if params[:tenant_id].present?

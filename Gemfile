@@ -38,6 +38,7 @@ group :production do
   gem 'rails_12factor', '>=0.0.2'
 end
 
+gem 'clerk-sdk-ruby', require: "clerk"
 gem 'activesupport'
 gem 'progress_bar'
 gem 'jquery-rails'
@@ -75,3 +76,6 @@ gem 'jquery-datatables-rails', '~> 1.12.2'
 gem 'sitemap_generator'
 gem 'will_paginate-bootstrap'
 gem 'ar-octopus'
+gem 'nokogiri'
+gem 'loofah', '~>2.19.1'
+gem 'clerk'
